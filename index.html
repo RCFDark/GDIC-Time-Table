@@ -558,6 +558,117 @@
             background: linear-gradient(135deg, #FFE6CC 0%, #FFD4A3 100%);
         }
         
+        .fab-back {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--metro-red) 0%, #E74C3C 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(200,16,46,0.4);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            animation: fabPulse 2s infinite;
+        }
+        
+        .fab-back:hover {
+            transform: translateY(-4px) scale(1.1);
+            box-shadow: 0 8px 30px rgba(200,16,46,0.5);
+            background: linear-gradient(135deg, #A8101E 0%, #C0392B 100%);
+        }
+        
+        .fab-back:active {
+            transform: translateY(-2px) scale(1.05);
+        }
+        
+        @keyframes fabPulse {
+            0%, 100% {
+                box-shadow: 0 6px 20px rgba(200,16,46,0.4);
+            }
+            50% {
+                box-shadow: 0 6px 30px rgba(200,16,46,0.6);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .fab-back {
+                width: 56px;
+                height: 56px;
+                bottom: 20px;
+                right: 20px;
+                font-size: 24px;
+            }
+        }
+        
+        .sticky-back {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, var(--metro-red) 0%, #E74C3C 100%);
+            color: white;
+            padding: 12px 20px;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 999;
+            box-shadow: 0 4px 20px rgba(200,16,46,0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+        
+        .sticky-back-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .sticky-back-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+        
+        .sticky-back-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+        
+        .sticky-back-title {
+            font-size: 16px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
         .line-indicator {
             display: inline-block;
             width: 8px;
@@ -569,6 +680,14 @@
 </head>
 <body>
 <div class="header"><h2 id="pageTitle" style="margin:0; cursor:pointer;">广东城际时刻表</h2></div>
+
+<div id="stickyBack" class="sticky-back">
+    <div class="sticky-back-left">
+        <button class="sticky-back-btn" onclick="goBack()">← 返回</button>
+        <span id="stickyBackTitle" class="sticky-back-title"></span>
+    </div>
+    <button class="sticky-back-btn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑ 顶部</button>
+</div>
 
 <!-- 使用指引区域 -->
 <div class="guide-area">
@@ -655,6 +774,9 @@
 
 <div id="board"></div>
 
+<button id="fabBack" class="fab-back" onclick="goBack()" title="返回站点选择">
+    ←
+</button>
 
 <div id="detailModal" class="modal">
     <div class="modal-content">
@@ -868,25 +990,23 @@
     }
 
     function goBack() {
-        // 显示站点选择器，隐藏返回按钮
+        isSearching = false;
         document.getElementById('quickSelector').style.display = 'block';
         document.getElementById('backButton').style.display = 'none';
-        
-        // 清空搜索框
+        document.getElementById('fabBack').style.display = 'none';
+        document.getElementById('stickyBack').style.display = 'none';
         document.getElementById('stationInput').value = '';
-        
-        // 清空显示结果
         document.getElementById('board').innerHTML = '';
     }
 
     function doSearch() {
         const val = document.getElementById('stationInput').value.trim();
         if (!val) return;
-        
-        // 隐藏站点选择器，显示返回按钮
+        isSearching = true;
         document.getElementById('quickSelector').style.display = 'none';
         document.getElementById('backButton').style.display = 'inline-flex';
-        
+        document.getElementById('fabBack').style.display = 'flex';
+        document.getElementById('stickyBackTitle').textContent = val;
         const board = document.getElementById('board');
         board.innerHTML = '';
 
@@ -1083,7 +1203,24 @@
         "穗深城际": ["新塘南", "中堂", "望牛墩", "东莞西", "洪梅", "东莞港", "厚街", "虎门北", "虎门东", "长安西", "长安", "沙井西", "福海西", "深圳机场北", "深圳机场"]
     };
 
-    // 开始初始化
+    let lastScrollTop = 0;
+    let isSearching = false;
+    
+    window.addEventListener('scroll', function() {
+        if (!isSearching) return;
+        
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const stickyBack = document.getElementById('stickyBack');
+        
+        if (scrollTop > 200) {
+            stickyBack.style.display = 'flex';
+        } else {
+            stickyBack.style.display = 'none';
+        }
+        
+        lastScrollTop = scrollTop;
+    });
+    
     window.onload = function() {
         console.log('页面加载完成，开始初始化...');
         init();
