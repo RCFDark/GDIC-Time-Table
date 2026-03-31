@@ -1,0 +1,1314 @@
+{
+  "C6873": {
+    "type": "特快",
+    "typeColor": "#e63946"
+  },
+  "C6875": {
+    "type": "特快",
+    "typeColor": "#e63946"
+  },
+  "C6877": {
+    "type": "特快",
+    "typeColor": "#e63946"
+  },
+  "C6879": {
+    "type": "特快",
+    "typeColor": "#e63946"
+  },
+  "C6881": {
+    "type": "特快",
+    "typeColor": "#e63946"
+  },
+  "C6885": {
+    "type": "特快",
+    "typeColor": "#e63946"
+  },
+  "C6887": {
+    "type": "特快",
+    "typeColor": "#e63946"
+  },
+  "S4965": {
+    "type": "特快",
+    "typeColor": "#e63946"
+  },
+  "C6874": {
+    "type": "特快",
+    "typeColor": "#e63946"
+  },
+  "C6876": {
+    "type": "特快",
+    "typeColor": "#e63946"
+  },
+  "C6878": {
+    "type": "特快",
+    "typeColor": "#e63946"
+  },
+  "C6880": {
+    "type": "特快",
+    "typeColor": "#e63946"
+  },
+  "C6882": {
+    "type": "特快",
+    "typeColor": "#e63946"
+  },
+  "C6886": {
+    "type": "特快",
+    "typeColor": "#e63946"
+  },
+  "C4812": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4902": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4966": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4911": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4797": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6871": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C6883": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C6870": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C6872": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C6884": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4841": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4843": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4845": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4847": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4849": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4851": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4842": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4844": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4846": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4848": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4850": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4852": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4752": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4950": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4952": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4954": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4956": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4958": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4960": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4962": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4964": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4951": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4953": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4955": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4957": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4959": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4961": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4963": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4775": {
+    "type": "特快",
+    "typeColor": "#e63946"
+  },
+  "C7528\n（逢周日开行）": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4821": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4774": {
+    "type": "特快",
+    "typeColor": "#e63946"
+  },
+  "S4792": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4785": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4802": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4822": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4804": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4822/3": {
+    "type": "特快",
+    "typeColor": "#e63946"
+  },
+  "S4833": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4784/5": {
+    "type": "特快",
+    "typeColor": "#e63946"
+  },
+  "S4824": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4806/7": {
+    "type": "特快",
+    "typeColor": "#e63946"
+  },
+  "S4806": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4835": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4826": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4808": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4837": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4828": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4810": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4839": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4803": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4804/5": {
+    "type": "特快",
+    "typeColor": "#e63946"
+  },
+  "S4823": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4834": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4805": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4836": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4825": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4808/9": {
+    "type": "特快",
+    "typeColor": "#e63946"
+  },
+  "S4807": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4838": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4827": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4809": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4840": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4829": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4811": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C6821": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4843": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4832": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4941": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4931": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4841": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4940": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4721": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4773": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4787": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4777": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4789": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4779": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4829": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4726": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4736": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4791": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4741": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4762": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4772": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4786": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4776": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4788": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4778": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4828": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4790": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4961": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4903": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4921": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4943": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4963": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4905": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4923": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4945": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4965": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4907": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4925": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4947": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4967": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4909": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4927": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4949": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4969": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4911": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4929": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4951": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4971": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4902": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4920": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4942": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4962": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4904": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4922": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4944": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4964": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4906": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4924": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4946": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4966": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4908": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4926": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4948": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4968": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4910": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4928": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4950": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4970": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4903": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4941": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4913": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4921": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4931": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4905": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4943": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4915": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4923": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4933": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4907": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4945": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4917": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4925": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4935": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4909": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4947": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4937": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4930": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4904": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4942": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4914": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4922": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4932": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4906": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4944": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4916": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4924": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4934": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4908": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4946": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4918": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4926": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4936": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4910": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4912/3": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6823": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6825": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6827": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6829": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6831": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6833": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6835": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6837": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6839": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6841": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6843": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6845": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6847": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6849": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6851": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6853": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6855": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6857": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6822": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6824": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6826": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6828": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6830": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6832": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6834": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6836": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6838": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6840": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6842": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6844": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6846": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6848": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6850": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6852": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6854": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6856": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C6858": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4802/3": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4826/7": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4810/1": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4820/1": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4751": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4782/3": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "C4824/5": {
+    "type": "快车",
+    "typeColor": "#f5a623"
+  },
+  "S4912": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4702": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4731": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4712": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4765": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4775": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4920": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4702": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4741": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4753": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4763": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4703": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4713": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4723": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4733": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4743": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4755": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4765": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4705": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4715": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4725": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4735": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C7525\n（逢周日开行）": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4745": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C7535\n（逢周五、日开行）": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4757": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4767": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4706": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4707": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4716": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4727": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4712": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4761": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4722": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4732": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4742": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4754": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4764": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4704": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4714": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4724": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4734": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4744": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C7534\n（逢周五、日开行）": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4756": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4766": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4706": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4726": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4738": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4948/9": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4722": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4796": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4716/7": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C4736/7": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "C7526/7\n（逢周日开行）": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4732": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4742": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4752": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4762": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4772": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4782": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4794": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4704": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4714": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4724": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4734": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4744": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4754": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4764": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4774": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4784": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4771": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4781": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4793": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4703": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4713": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4723": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4733": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4743": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4753": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4763": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4773": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4783": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4795": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4705": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4715": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4725": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4735": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4745": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4755": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4919": {
+    "type": "普通",
+    "typeColor": "#999"
+  },
+  "S4927": {
+    "type": "普通",
+    "typeColor": "#999"
+  }
+}

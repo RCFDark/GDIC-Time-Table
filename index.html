@@ -6,46 +6,620 @@
     <title>广东城际时刻表</title>
     <style>
         :root { 
-            --blue: #4a90e2; 
-            --bg: #f5f5f7; 
-            --text: #333; 
-            --gray: #999; 
-            --disabled-bg: #e0e0e0; 
-            --disabled-border: #ccc;
+            /* 广州地铁风格配色 */
+            --metro-red: #C8102E;      /* 广州地铁红 */
+            --metro-yellow: #FFB900;   /* 广州地铁黄 */
+            --metro-dark: #2C3E50;     /* 深色文字 */
+            --gray: #6C757D;          /* 灰色文字 */
+            --light-gray: #E9ECEF;     /* 浅灰色边框 */
+            --white: #FFFFFF;         /* 纯白色 */
+            --bg: #F8F9FA;             /* 浅灰色背景 */
+            --shadow: 0 1px 3px rgba(0,0,0,0.1);
+            --glass-bg: rgba(255, 255, 255, 0.85);  /* 毛玻璃背景 */
+            --card-radius: 16px;      /* 卡片圆角 */
         }
-        body { font-family: -apple-system, sans-serif; background: var(--bg); margin: 0; padding-bottom: 50px; color: var(--text); }
-        .header { background: white; padding: 18px; text-align: center; border-bottom: 1px solid #ddd; }
-        .search-area { background: white; padding: 12px 15px; display: flex; gap: 10px; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
-        input { flex: 1; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; outline: none; }
-        button { padding: 0 18px; background: var(--blue); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        .station-selector { padding: 15px; background: white; margin-bottom: 10px; }
-        .section-title { font-size: 13px; color: #999; margin-bottom: 10px; font-weight: bold; }
-        .station-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
-        .station-btn { background: #f0f2f5; padding: 8px 2px; border-radius: 6px; text-align: center; font-size: 13px; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .hot-station { background: #eef5ff; color: var(--blue); font-weight: bold; border: 1px solid #d0e4ff; }
-        .direction-bar { background: rgba(238, 245, 255, 0.98); backdrop-filter: blur(8px); padding: 12px 15px; font-weight: bold; color: var(--blue); border-bottom: 1px solid #d0e4ff; font-size: 15px; position: sticky; top: 61px; z-index: 90; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .direction-bar.disabled { background: var(--disabled-bg) !important; color: #666 !important; border-bottom: 1px solid var(--disabled-border) !important; backdrop-filter: none; }
-        .hour-row { display: flex; background: white; border-bottom: 1px solid #f2f2f2; min-height: 60px; }
-        .hour-label { width: 65px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #666; border-right: 2px solid #f5f5f5; font-size: 18px; background: #fafafa; }
-        .mins-list { flex: 1; padding: 8px 15px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-        .min-item { color: var(--blue); font-size: 18px; font-weight: 600; cursor: pointer; padding: 5px; }
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(3px); }
-        .modal-content { background: white; margin: 3vh auto; border-radius: 12px; width: 92%; max-width: 450px; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; }
-        .modal-header { background: var(--blue); color: white; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
-        .modal-body { flex: 1; overflow-y: auto; padding: 0 15px; }
-        .stop-row { display: flex; align-items: center; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
-        .stop-times-detail { display: grid; grid-template-columns: 95px 95px; gap: 8px; justify-content: end; font-family: 'Arial', monospace; }
-        .stop-time-tag { background: #f4f4f4; padding: 3px 0; border-radius: 4px; width: 95px; text-align: center; font-size: 12px; }
-        .time-placeholder { width: 95px; }
-        .current-stop-row { background: #f0f7ff; margin: 0 -15px; padding: 8px 15px; border-left: 5px solid var(--blue); }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-attachment: fixed;
+            margin: 0; 
+            padding-bottom: 50px; 
+            color: var(--metro-dark);
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+        
+        .header { 
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 20px; 
+            text-align: center; 
+            border-bottom: 3px solid var(--metro-red);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            border-radius: 0 0 var(--card-radius) var(--card-radius);
+            transition: all 0.3s ease;
+        }
+        
+        .header h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--metro-dark);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .header h2:hover {
+            transform: translateY(-2px);
+            color: var(--metro-red);
+        }
+        
+        .search-area { 
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 20px; 
+            display: flex; 
+            gap: 12px; 
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            position: sticky; 
+            top: 80px; 
+            z-index: 100;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border-radius: var(--card-radius);
+            margin: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        input { 
+            flex: 1; 
+            padding: 12px 16px; 
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: var(--card-radius); 
+            font-size: 16px; 
+            outline: none;
+            background: rgba(255,255,255,0.5);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+        
+        input:focus {
+            border-color: var(--metro-red);
+            background: rgba(255,255,255,0.8);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(200,16,46,0.2);
+        }
+        
+        button { 
+            padding: 0 24px; 
+            background: var(--metro-red); 
+            color: white; 
+            border: none; 
+            border-radius: var(--card-radius); 
+            cursor: pointer; 
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(200,16,46,0.3);
+        }
+        
+        button:hover {
+            background: #A8101E;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(200,16,46,0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .guide-area {
+            background: linear-gradient(135deg, var(--metro-red) 0%, #E74C3C 100%);
+            color: white;
+            margin: 12px;
+            padding: 20px;
+            border-radius: var(--card-radius);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(200,16,46,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .guide-area:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(200,16,46,0.3);
+        }
+        
+        .guide-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            padding-bottom: 12px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .guide-content {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            font-size: 15px;
+        }
+        
+        .guide-item {
+            background: rgba(255,255,255,0.15);
+            padding: 14px;
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .guide-item:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .guide-item strong {
+            color: var(--metro-yellow);
+            font-weight: 700;
+        }
+        
+        .station-selector { 
+            padding: 24px; 
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            margin: 12px; 
+            border-radius: var(--card-radius);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .station-selector:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+        
+        .section-title { 
+            font-size: 17px; 
+            color: var(--metro-dark); 
+            margin-bottom: 16px; 
+            font-weight: 700;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .station-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); 
+            gap: 12px; 
+            margin-bottom: 24px;
+        }
+        
+        .station-btn { 
+            background: rgba(255,255,255,0.6);
+            padding: 12px 8px; 
+            border-radius: 12px; 
+            text-align: center; 
+            font-size: 14px; 
+            cursor: pointer; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis;
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            font-weight: 500;
+        }
+        
+        .station-btn:hover {
+            background: rgba(255,255,255,0.8);
+            border-color: var(--metro-red);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(200,16,46,0.2);
+        }
+        
+        .hot-station { 
+            background: linear-gradient(135deg, #FFF5E6 0%, #FFE6CC 100%);
+            color: var(--metro-red); 
+            border: 2px solid var(--metro-red);
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hot-station::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+        
+        .hot-station:hover::before {
+            left: 100%;
+        }
+        
+        .direction-bar { 
+            background: linear-gradient(135deg, var(--metro-red) 0%, #E74C3C 100%);
+            color: white; 
+            padding: 16px 20px; 
+            font-weight: 700; 
+            border-bottom: 3px solid var(--metro-yellow);
+            font-size: 16px; 
+            position: sticky; 
+            top: 160px; 
+            z-index: 90; 
+            border-radius: var(--card-radius);
+            box-shadow: 0 8px 32px rgba(200,16,46,0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .direction-bar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(200,16,46,0.3);
+        }
+        
+        .direction-bar.disabled { 
+            background: linear-gradient(135deg, var(--gray) 0%, #555 100%);
+            color: white; 
+            border-bottom-color: #FFB900;
+            opacity: 0.8;
+        }
+        
+        .hour-row { 
+            display: flex; 
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            min-height: 70px;
+            transition: all 0.3s ease;
+            border-radius: var(--card-radius);
+            margin: 8px 12px;
+            overflow: hidden;
+        }
+        
+        .hour-row:hover {
+            transform: translateX(4px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        
+        .hour-label { 
+            width: 80px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-weight: 700; 
+            color: var(--metro-dark); 
+            border-right: 2px solid rgba(255,255,255,0.3); 
+            font-size: 20px; 
+            background: rgba(255,255,255,0.3);
+            font-family: monospace;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .hour-label::after { 
+            content: '时'; 
+            font-size: 12px; 
+            margin-left: 4px;
+            opacity: 0.8;
+        }
+        
+        .mins-list { 
+            flex: 1; 
+            padding: 14px 20px; 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 16px; 
+            align-items: center;
+        }
+        
+        .min-item { 
+            color: var(--metro-dark); 
+            font-size: 20px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            padding: 10px 16px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.6);
+            backdrop-filter: blur(5px);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .min-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--metro-red) 0%, var(--metro-yellow) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 12px;
+        }
+        
+        .min-item:hover {
+            transform: translateY(-4px) scale(1.05);
+            border-color: var(--metro-red);
+            box-shadow: 0 8px 25px rgba(200,16,46,0.3);
+        }
+        
+        .min-item:hover::before {
+            opacity: 0.1;
+        }
+        
+        .min-item.special-train {
+            background: #FFF9C4 !important;
+            border: 2px solid #FBC02D !important;
+        }
+        
+        .min-item.special-train .time-text {
+            color: #F57F17 !important;
+        }
+        
+        .legend {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 20px;
+            margin: 12px;
+            border-radius: var(--card-radius);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .legend:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+        
+        .legend-title {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--metro-dark);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .legend-items {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 15px;
+            padding: 8px 12px;
+            background: rgba(255,255,255,0.6);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .legend-item:hover {
+            background: rgba(255,255,255,0.8);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .modal { 
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0; 
+            top: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            animation: modalFadeIn 0.3s ease;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content { 
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            margin: 5vh auto; 
+            border-radius: var(--card-radius); 
+            width: 92%; 
+            max-width: 500px; 
+            max-height: 85vh; 
+            display: flex; 
+            flex-direction: column; 
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+            animation: modalSlideIn 0.4s ease;
+        }
+        
+        @keyframes modalSlideIn {
+            from { 
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .modal-header { 
+            background: linear-gradient(135deg, var(--metro-red) 0%, #E74C3C 100%);
+            color: white; 
+            padding: 18px 24px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .modal-body { 
+            flex: 1; 
+            overflow-y: auto; 
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .stop-row { 
+            display: flex; 
+            align-items: center; 
+            padding: 16px 0; 
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .stop-row:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateX(4px);
+        }
+        
+        .current-stop-row { 
+            background: linear-gradient(135deg, #FFF5E6 0%, #FFE6CC 100%);
+            margin: 0 -16px; 
+            padding: 16px 20px; 
+            border-left: 5px solid var(--metro-red);
+            border-radius: 0 var(--card-radius) var(--card-radius) 0;
+            box-shadow: 0 4px 15px rgba(200,16,46,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .current-stop-row::before {
+            content: '●';
+            position: absolute;
+            left: 8px;
+            color: var(--metro-red);
+            font-size: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--metro-red);
+            font-size: 15px;
+            font-weight: 600;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #FFF5E6 0%, #FFE6CC 100%);
+            border-radius: 20px;
+            cursor: pointer;
+            margin: 12px;
+            border: 2px solid var(--metro-red);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(200,16,46,0.2);
+            backdrop-filter: blur(5px);
+        }
+        
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(200,16,46,0.3);
+            background: linear-gradient(135deg, #FFE6CC 0%, #FFD4A3 100%);
+        }
+        
+        .line-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
     </style>
 </head>
 <body>
 <div class="header"><h2 id="pageTitle" style="margin:0; cursor:pointer;">广东城际时刻表</h2></div>
+
+<!-- 使用指引区域 -->
+<div class="guide-area">
+    <div class="guide-title">使用指引</div>
+    <div class="guide-content">
+        <div class="guide-item">
+            <strong>查询站点：</strong>点击热门站点或输入站名查看车次
+        </div>
+        <div class="guide-item">
+            <strong>查询车次：</strong>直接输入车次号查看详细时刻表
+        </div>
+        <div class="guide-item">
+            <strong>看懂时刻表：</strong>数字表示分钟，颜色代表列车等级
+        </div>
+        <div class="guide-item">
+            <strong>查看详情：</strong>点击时间或站点查看完整运行信息
+        </div>
+    </div>
+</div>
+
+<!-- 图例说明 -->
+<div class="legend">
+    <div class="legend-title">列车类型说明</div>
+    <div class="legend-items">
+        <div class="legend-item">
+            <div class="legend-color" style="background:#e63946;"></div>
+            <span>特快列车</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background:#f5a623;"></div>
+            <span>快车</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background:#6c757d;"></div>
+            <span>站站停列车</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background:#FFF9C4; border:2px solid #FBC02D;"></div>
+            <span>特殊开行车次</span>
+        </div>
+    </div>
+</div>
+
 <div class="search-area">
-    <input type="text" id="stationInput" placeholder="输入站名或车次号" onkeydown="if(event.keyCode==13) doSearch()">
+    <input type="text" id="stationInput" placeholder="输入站名或车次号查询" onkeydown="if(event.keyCode==13) doSearch()">
     <button onclick="doSearch()">查询</button>
 </div>
+<div id="backButton" class="back-button" style="display: none;" onclick="goBack()">
+    ← 返回站点选择
+</div>
+
 <div id="quickSelector" class="station-selector">
     <div class="section-title">热门站点</div>
     <div class="station-grid">
@@ -78,7 +652,10 @@
     <div class="section-title">其他站点</div>
     <div id="otherStations" class="station-grid"></div>
 </div>
+
 <div id="board"></div>
+
+
 <div id="detailModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -89,91 +666,46 @@
     </div>
 </div>
 
-<div id="judgeModal" class="modal">
-    <div class="modal-content" style="max-width: 500px;">
-        <div class="modal-header" style="background: #e63946;">
-            <span style="font-weight:bold;">列车等级判定</span>
-            <span style="font-size:28px; cursor:pointer" onclick="closeJudgeModal()">&times;</span>
-        </div>
-        <div class="modal-body">
-            <div id="judgeContent"></div>
-        </div>
-        <div style="padding:15px; border-top:1px solid #eee; background:#f9f9f9; display:flex; gap:10px;">
-            <button onclick="resetAllJudges()" style="flex:1; padding:10px; background:#666; font-size:14px;">重置所有判定</button>
-            <button onclick="saveJudgeResult()" style="flex:1; padding:10px; background:#4a90e2; font-size:14px;">保存判定结果</button>
-        </div>
-    </div>
-</div>
-
 <script>
     let allTrainsDetail = {};
     let foundStations = new Set();
-    let clickCount = 0;
-    let currentJudgingTrains = [];
 
     async function init() {
         console.log('开始初始化...');
         try {
-            // 优先加载判定结果
-            console.log('尝试加载 judge_result.json...');
-            const judgeResponse = await fetch('judge_result.json');
-            if (judgeResponse.ok) {
-                console.log('成功加载 judge_result.json');
-                const judgeData = await judgeResponse.json();
-                console.log('手动分类数据加载完成，共', Object.keys(judgeData).length, '个车次');
-                
-                // 如果有判定结果，只加载原始数据，然后应用判定结果
-                const dataResponse = await fetch('gzmtr_schedule.json');
-                const data = await dataResponse.json();
-                console.log('原始数据加载完成，开始解析...');
-                parseJSON(data);
-                console.log('原始数据解析完成，应用手动分类...');
-                applyJudgeResults(judgeData);
-                console.log('手动分类应用完成，开始finalize...');
-                finalizeData();
-                console.log('开始渲染站点...');
-                renderCategorizedStations();
-                console.log('站点渲染完成');
-                document.getElementById('stationInput').disabled = false;
-                console.log('初始化完成 - 使用手动分类结果');
-                return;
-            } else {
-                console.log('judge_response 不 OK');
+            // 加载原始数据
+            console.log('开始加载 gzmtr_schedule.json...');
+            const dataResponse = await fetch('gzmtr_schedule.json');
+            if (!dataResponse.ok) {
+                throw new Error('无法加载 gzmtr_schedule.json: ' + dataResponse.status);
             }
-        } catch (e) {
-            console.log('没有找到判定结果文件，使用默认配置:', e);
-        }
-
-        // 默认加载方式
-        console.log('使用默认加载方式...');
-        try {
-            const response = await fetch('gzmtr_schedule.json');
-            const data = await response.json();
-            console.log('数据加载成功，开始解析...');
+            const data = await dataResponse.json();
+            console.log('原始数据加载成功，车次数量:', Object.keys(data).length);
+            
+            // 解析数据
+            console.log('开始解析JSON数据...');
             parseJSON(data);
-            console.log('数据解析完成，开始finalize...');
+            console.log('JSON解析完成，车次总数:', Object.keys(allTrainsDetail).length);
+            
+            // 完成数据处理
+            console.log('开始finalize...');
             finalizeData();
             console.log('开始渲染站点...');
             renderCategorizedStations();
             console.log('站点渲染完成');
+            
+            // 启用搜索
             document.getElementById('stationInput').disabled = false;
-            console.log('初始化完成 - 使用默认自动分类');
+            console.log('初始化完成');
+            
+            // 显示当前状态
+            console.log('当前车次总数:', Object.keys(allTrainsDetail).length);
+            console.log('当前站点总数:', foundStations.size);
+            
         } catch (e) {
             console.error('初始化失败:', e);
-            alert('数据加载失败，请检查网络或文件是否存在');
+            alert('数据加载失败: ' + e.message);
         }
-    }
-
-    function applyJudgeResults(judgeData) {
-        console.log('应用手动分类结果，共', Object.keys(judgeData).length, '个车次');
-        Object.entries(judgeData).forEach(([code, judgeResult]) => {
-            const train = allTrainsDetail[code];
-            if (train) {
-                train.type = judgeResult.type;
-                train.typeColor = judgeResult.typeColor;
-                console.log('手动分类:', code, '->', judgeResult.type);
-            }
-        });
     }
 
     function parseJSON(data) {
@@ -189,9 +721,23 @@
                 // 处理每个车次
                 console.log('处理线路:', routeKey, '车次数量:', route.trainTimeList.length);
                 route.trainTimeList.forEach(train => {
-                    const trainCode = train.trainNumber.name;
+                    let trainCode = train.trainNumber.name;
+                    let specialNote = null;
+                    
+                    if (trainCode.includes('（') && trainCode.includes('）')) {
+                        const match = trainCode.match(/（([^）]+)）/);
+                        if (match) {
+                            specialNote = match[1];
+                            trainCode = trainCode.replace(/（[^）]+）/, '').trim();
+                        }
+                    }
+                    
                     if (!allTrainsDetail[trainCode]) {
                         allTrainsDetail[trainCode] = { stops: [] };
+                    }
+                    
+                    if (specialNote) {
+                        allTrainsDetail[trainCode].specialNote = specialNote;
                     }
 
                     // 处理每个站点的到达时间
@@ -228,8 +774,21 @@
         }
     }
 
-    function finalizeData() {
-        console.log('开始 finalizeData，自动分类处理...');
+    async function finalizeData() {
+        console.log('开始 finalizeData...');
+        
+        // 加载快车判定配置
+        let expressData = null;
+        try {
+            const expressResponse = await fetch('express.json');
+            if (expressResponse.ok) {
+                expressData = await expressResponse.json();
+                console.log('成功加载 express.json');
+            }
+        } catch (e) {
+            console.log('没有找到 express.json:', e);
+        }
+        
         Object.keys(allTrainsDetail).forEach(code => {
             const t = allTrainsDetail[code];
             // 严格按时间先后排序
@@ -244,24 +803,16 @@
                 t.terminal = t.stops[t.stops.length - 1].name;
             }
 
-            // 判定等级 - 只有在没有手动分类的情况下才自动分类
-            const stopCount = t.stops.length;
-            if (!t.type || t.type === "") {
-                if (stopCount <= 5) {
-                    t.type = "特快";
-                    t.typeColor = "#e63946";
-                    console.log('自动分类为特快:', code);
-                } else if (stopCount <= 10) {
-                    t.type = "快车";
-                    t.typeColor = "#f5a623";
-                    console.log('自动分类为快车:', code);
-                } else {
-                    t.type = "普通";
-                    t.typeColor = "#999";
-                    console.log('自动分类为普通:', code);
-                }
+            // 从 express.json 读取判定等级
+            if (expressData && expressData[code]) {
+                const config = expressData[code];
+                t.type = config.type;
+                t.typeColor = config.typeColor;
+                console.log('从 express.json 加载:', code, '->', t.type);
             } else {
-                console.log('保留手动分类:', code, '->', t.type);
+                t.type = "普通";
+                t.typeColor = "#999";
+                console.log('未在 express.json 找到，默认为普通:', code);
             }
         });
         console.log('finalizeData 完成');
@@ -281,14 +832,18 @@
             console.log(`${cat} 线路的有效站点:`, toShow);
             if (toShow.length > 0) {
                 const title = document.createElement('div');
-                title.style = "grid-column: 1 / -1; font-size: 14px; color: #888; margin: 20px 0 8px 5px; font-weight: 600; display: flex; align-items: center;";
-                title.innerHTML = `<span style="width:3px; height:14px; background:var(--blue); margin-right:8px;"></span>${cat}`;
+                title.style = "grid-column: 1 / -1; font-size: 15px; color: var(--metro-dark); margin: 20px 0 10px 5px; font-weight: 600; border-bottom: 1px solid var(--light-gray); padding-bottom: 8px;";
+                title.innerHTML = `${cat} (${toShow.length}站)`;
                 grid.appendChild(title);
+                
                 toShow.forEach(name => {
                     const btn = document.createElement('div');
                     btn.className = 'station-btn';
                     btn.innerText = name;
-                    btn.onclick = () => { document.getElementById('stationInput').value = name; doSearch(); };
+                    btn.onclick = () => { 
+                        document.getElementById('stationInput').value = name; 
+                        doSearch(); 
+                    };
                     grid.appendChild(btn);
                 });
             }
@@ -298,7 +853,10 @@
 
     function getTypeTag(train) {
         if (train.type === "普通") return "";
-        return `<span style="background:${train.typeColor}; color:white; font-size:10px; padding:1px 4px; border-radius:3px; margin-left:5px; vertical-align:middle; font-weight:bold;">${train.type}</span>`;
+        return `<span style="background:${train.typeColor}; color:white; font-size:11px; padding:2px 6px; border-radius:4px; margin-left:6px; 
+                 font-weight:500;">
+                 ${train.type}
+               </span>`;
     }
 
     function clickStation(name) {
@@ -309,12 +867,28 @@
         }
     }
 
+    function goBack() {
+        // 显示站点选择器，隐藏返回按钮
+        document.getElementById('quickSelector').style.display = 'block';
+        document.getElementById('backButton').style.display = 'none';
+        
+        // 清空搜索框
+        document.getElementById('stationInput').value = '';
+        
+        // 清空显示结果
+        document.getElementById('board').innerHTML = '';
+    }
+
     function doSearch() {
         const val = document.getElementById('stationInput').value.trim();
         if (!val) return;
+        
+        // 隐藏站点选择器，显示返回按钮
         document.getElementById('quickSelector').style.display = 'none';
+        document.getElementById('backButton').style.display = 'inline-flex';
+        
         const board = document.getElementById('board');
-        board.innerHTML = `<div style="padding:15px; text-align:center; color:var(--blue); font-size:14px;" onclick="location.reload()">← 返回重新选择车站</div>`;
+        board.innerHTML = '';
 
         // 判断是否是车次号（以字母+数字或纯数字）
         const isTrainCode = /^[A-Za-z]?\d+$/.test(val.toUpperCase()) || allTrainsDetail[val.toUpperCase()];
@@ -333,13 +907,28 @@
             if (stop) matched.push({ code, dest: allTrainsDetail[code].terminal, time: stop.time, raw: allTrainsDetail[code] });
         });
 
+        if (matched.length === 0) {
+            board.innerHTML = `
+                <div style="text-align:center; padding:40px 20px; color:var(--gray);">
+                    <div style="font-size:18px; font-weight:600; margin-bottom:8px;">未找到相关车次</div>
+                    <div style="font-size:14px;">请检查站名是否正确或尝试其他站点</div>
+                </div>
+            `;
+            return;
+        }
+
         const groups = {};
         matched.forEach(m => { if (!groups[m.dest]) groups[m.dest] = []; groups[m.dest].push(m); });
 
         Object.keys(groups).sort().forEach(dest => {
             const bar = document.createElement('div');
             bar.className = 'direction-bar';
-            bar.innerHTML = `<span style="font-size:12px; opacity:0.8">往</span> ${dest}`;
+            bar.innerHTML = `
+                <span>往 ${dest}</span>
+                <span style="margin-left:auto; font-size:14px; opacity:0.8;">
+                    ${groups[dest].length} 班
+                </span>
+            `;
             board.appendChild(bar);
 
             const hours = {};
@@ -356,9 +945,16 @@
                 row.className = 'hour-row';
                 const minsHtml = hours[hStr].sort((a,b) => a.time.localeCompare(b.time))
                     .map(m => `
-                        <div class="min-item" onclick="showDetail('${m.code}', '${val}')" style="position:relative; padding-top:10px; height:auto;">
-                            ${m.time.split(':')[1]}
-                            <div style="font-size:8px; transform:scale(0.8); color:${m.raw.typeColor}; font-weight:bold; margin-top:-2px;">${m.raw.type === '普通' ? '' : m.raw.type}</div>
+                        <div class="min-item" onclick="showDetail('${m.code}', '${val}')" 
+                             style="position:relative; padding:6px 10px; border-radius:4px; 
+                                    background:${m.raw.specialNote ? '#FFF9C4' : '#F8F8F8'}; border:1px solid ${m.raw.specialNote ? '#FBC02D' : 'transparent'};">
+                            <div style="font-size:18px; font-weight:600; color:${m.raw.specialNote ? '#F57F17' : 'inherit'};">
+                                ${m.time.split(':')[1]}
+                            </div>
+                            <div style="font-size:10px; font-weight:600; 
+                                       color:${m.raw.typeColor}; margin-top:2px;">
+                                ${m.raw.type === '普通' ? '' : m.raw.type}
+                            </div>
                         </div>
                     `)
                     .join('');
@@ -373,27 +969,50 @@
         const board = document.getElementById('board');
         
         const header = document.createElement('div');
-        header.style = "padding:20px; background:white; text-align:center; border-bottom:1px solid #eee;";
+        header.style = "padding:24px; background:linear-gradient(135deg, var(--metro-red) 0%, #E74C3C 100%); color: white; text-align:center; border-bottom:3px solid var(--metro-yellow); border-radius: var(--card-radius) var(--card-radius) 0 0; box-shadow: 0 8px 32px rgba(200,16,46,0.2); backdrop-filter: blur(10px);";
         header.innerHTML = `
-            <h3 style="margin:0; color:var(--blue);">${trainCode}次 ${getTypeTag(train)}</h3>
-            <div style="color:#666; font-size:14px; margin-top:5px;">${train.type} · 共 ${train.stops.length} 站</div>
+            <h3 style="margin:0; font-size:24px; font-weight:700; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+                ${trainCode}次 ${getTypeTag(train)}
+            </h3>
+            <div style="font-size:16px; margin-top:8px; opacity:0.9; font-weight:500;">
+                ${train.type} · 共 ${train.stops.length} 站
+            </div>
         `;
         board.appendChild(header);
+        
+        if (train.specialNote) {
+            const specialAlert = document.createElement('div');
+            specialAlert.style = "background:#FFF9C4; border-left:4px solid #FBC02D; margin:16px 12px; padding:16px; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.1);";
+            specialAlert.innerHTML = `
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <div style="font-size:28px;">⚠️</div>
+                    <div>
+                        <div style="font-size:16px; font-weight:700; color:#F57F17; margin-bottom:4px;">特殊开行时间</div>
+                        <div style="font-size:14px; color:#F9A825; font-weight:600;">${train.specialNote}</div>
+                        <div style="font-size:12px; color:#F9A825; margin-top:4px; opacity:0.8;">请乘客注意该车次的开行时间</div>
+                    </div>
+                </div>
+            `;
+            board.appendChild(specialAlert);
+        }
 
         train.stops.forEach((stop, idx) => {
             const row = document.createElement('div');
             row.className = 'hour-row';
-            row.style = "cursor:pointer; transition:background 0.2s;";
-            row.onmouseover = () => row.style.background = '#f8faff';
-            row.onmouseout = () => row.style.background = 'white';
+            row.style = "cursor:pointer;";
             row.onclick = () => showDetail(trainCode, stop.name);
             
+            const isEnd = idx === train.stops.length - 1;
+            const isStart = idx === 0;
+            
             row.innerHTML = `
-                <div class="hour-label" style="width:80px; font-size:18px;">${stop.time}</div>
-                <div class="mins-list" style="font-size:16px; font-weight:500; color:${idx===0?'var(--blue)':idx===train.stops.length-1?'var(--blue)':'#333'};">
+                <div class="hour-label" style="width:80px; font-size:18px; font-weight:600;">
+                    ${stop.time}
+                </div>
+                <div class="mins-list" style="font-size:16px; font-weight:500;">
                     ${stop.name}
-                    ${idx===0 ? '<span style="font-size:12px; color:var(--blue); margin-left:10px;">始发站</span>' : ''}
-                    ${idx===train.stops.length-1 ? '<span style="font-size:12px; color:var(--blue); margin-left:10px;">终点站</span>' : ''}
+                    ${isStart ? '<span style="background:var(--metro-yellow); color:var(--metro-dark); font-size:10px; padding:2px 6px; border-radius:3px; margin-left:6px;">始发</span>' : ''}
+                    ${isEnd ? '<span style="background:var(--metro-yellow); color:var(--metro-dark); font-size:10px; padding:2px 6px; border-radius:3px; margin-left:6px;">终到</span>' : ''}
                 </div>
             `;
             board.appendChild(row);
@@ -402,171 +1021,57 @@
 
     function showDetail(code, currentStation) {
         const train = allTrainsDetail[code];
-        document.getElementById('modalTitle').innerHTML = `${code}次 ${getTypeTag(train)} <span style="font-size:12px; color:#999; font-weight:normal; margin-left:10px;">至 ${train.terminal}</span>`;
+        document.getElementById('modalTitle').innerHTML = `${code}次 ${getTypeTag(train)} 至 ${train.terminal}`;
+        
         const body = document.getElementById('modalBody');
         
-        body.innerHTML = train.stops.map((s, idx) => {
+        let contentHtml = '';
+        
+        if (train.specialNote) {
+            contentHtml += `
+                <div style="background:#FFF9C4; border:2px solid #FBC02D; border-radius:12px; padding:16px; margin-bottom:20px; text-align:center;">
+                    <div style="font-size:20px; margin-bottom:8px;">⚠️</div>
+                    <div style="font-size:16px; font-weight:700; color:#F57F17; margin-bottom:4px;">特殊开行时间</div>
+                    <div style="font-size:14px; color:#F9A825; font-weight:600;">${train.specialNote}</div>
+                    <div style="font-size:12px; color:#F9A825; margin-top:8px;">请乘客注意该车次的开行时间</div>
+                </div>
+            `;
+        }
+        
+        contentHtml += train.stops.map((s, idx) => {
             const isCurrent = s.name === currentStation;
+            const isEnd = idx === train.stops.length - 1;
+            const isStart = idx === 0;
+            
             return `
-                <div class="stop-row" style="display:flex; align-items:center; padding: 12px 0; border-bottom:1px solid #f0f0f0; ${isCurrent ? 'background:#f8faff;' : ''}">
-                    <div style="width:60px; text-align:center; font-family:monospace; font-size:16px; color:${isCurrent ? 'var(--blue)' : '#333'}; font-weight:${isCurrent?'bold':'normal'}">
+                <div class="stop-row" style="display:flex; align-items:center; padding: 12px 0; border-bottom:1px solid var(--light-gray); ${isCurrent ? 'background:#FFF5E6; margin:0 -16px; padding-left:20px; border-left:4px solid var(--metro-red);' : ''}">
+                    <div style="width:60px; text-align:center; font-family:monospace; font-size:16px; 
+                               color:${isCurrent ? 'var(--metro-red)' : (isStart || isEnd ? 'var(--metro-red)' : 'var(--metro-dark)')}; 
+                               font-weight:${isCurrent ? '600' : (isStart || isEnd ? '600' : '500')};">
                         ${s.time}
                     </div>
-                    <div style="width:20px; display:flex; flex-direction:column; align-items:center; margin:0 10px;">
-                        <div style="width:2px; flex:1; background:${idx===0?'transparent':'#ddd'}"></div>
-                        <div style="width:8px; height:8px; border-radius:50%; background:${isCurrent ? 'var(--blue)' : '#ccc'};"></div>
-                        <div style="width:2px; flex:1; background:${idx===train.stops.length-1?'transparent':'#ddd'}"></div>
+                    <div style="width:20px; display:flex; flex-direction:column; align-items:center; margin:0 12px;">
+                        <div style="width:2px; flex:1; background:${idx===0?'transparent':'var(--light-gray)'}"></div>
+                        <div style="width:8px; height:8px; border-radius:50%; background:${isCurrent ? 'var(--metro-red)' : (isStart || isEnd ? 'var(--metro-red)' : 'var(--light-gray)')};"></div>
+                        <div style="width:2px; flex:1; background:${idx===train.stops.length-1?'transparent':'var(--light-gray)'}"></div>
                     </div>
-                    <div style="flex:1; font-size:16px; color:${isCurrent ? 'var(--blue)' : '#333'}; font-weight:${isCurrent?'bold':'normal'}">
+                    <div style="flex:1; font-size:16px; color:${isCurrent ? 'var(--metro-red)' : (isStart || isEnd ? 'var(--metro-red)' : 'var(--metro-dark)')}; 
+                               font-weight:${isCurrent ? '600' : (isStart || isEnd ? '600' : '500')};">
                         ${s.name}
+                        ${isStart ? '<span style="background:var(--metro-yellow); color:var(--metro-dark); font-size:10px; padding:2px 6px; border-radius:3px; margin-left:6px;">始发</span>' : ''}
+                        ${isEnd ? '<span style="background:var(--metro-yellow); color:var(--metro-dark); font-size:10px; padding:2px 6px; border-radius:3px; margin-left:6px;">终到</span>' : ''}
+                        ${isCurrent ? '<span style="background:var(--metro-red); color:white; font-size:10px; padding:2px 6px; border-radius:3px; margin-left:6px;">本站</span>' : ''}
                     </div>
-                    ${isCurrent ? '<div style="font-size:11px; color:var(--blue); padding-right:10px; font-weight:bold;">本站上车</div>' : ''}
                 </div>
             `;
         }).join('');
+        
+        body.innerHTML = contentHtml;
         document.getElementById('detailModal').style.display = 'block';
     }
 
     function closeModal() { document.getElementById('detailModal').style.display = 'none'; }
     window.onclick = e => { if (e.target.className === 'modal') closeModal(); }
-
-    function closeJudgeModal() { document.getElementById('judgeModal').style.display = 'none'; }
-
-    function showJudgePage() {
-        const judgeModal = document.getElementById('judgeModal');
-        const judgeContent = document.getElementById('judgeContent');
-        
-        // 显示所有快车和特快列车
-        currentJudgingTrains = Object.entries(allTrainsDetail)
-            .filter(([code, train]) => train.type === '特快' || train.type === '快车')
-            .sort((a, b) => a[0].localeCompare(b[0]));
-        
-        renderJudgeList();
-        judgeModal.style.display = 'block';
-    }
-
-    function renderJudgeList() {
-        const judgeContent = document.getElementById('judgeContent');
-        
-        if (currentJudgingTrains.length === 0) {
-            judgeContent.innerHTML = '<div style="padding:20px; text-align:center; color:#666;">所有列车已判定完成</div>';
-            return;
-        }
-        
-        judgeContent.innerHTML = `
-            <div style="padding:15px; background:#f8f8f8; border-radius:8px; margin-bottom:15px;">
-                <div style="font-size:14px; color:#666; margin-bottom:5px;">待判定列车数量: <strong>${currentJudgingTrains.length}</strong></div>
-                <div style="font-size:12px; color:#999;">请逐个确认列车等级是否正确</div>
-            </div>
-            ${currentJudgingTrains.map(([code, train], index) => {
-                const escapedCode = code.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-                return `
-                <div style="margin-bottom:12px; padding:12px; background:white; border:1px solid #eee; border-radius:8px;">
-                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
-                        <span style="font-weight:bold; font-size:16px; color:var(--blue);">${code}</span>
-                        <span style="background:${train.typeColor}; color:white; font-size:12px; padding:3px 8px; border-radius:4px; font-weight:bold;">${train.type}</span>
-                    </div>
-                    <div style="font-size:13px; color:#666; margin-bottom:5px;">停站数: ${train.stops.length} 站</div>
-                    <div style="font-size:12px; color:#999; margin-bottom:10px;">
-                        ${train.stops[0].name} → ${train.stops[train.stops.length-1].name}
-                    </div>
-                    <div style="background:#f9f9f9; padding:10px; border-radius:6px; margin-bottom:10px;">
-                        <div style="font-size:12px; color:#888; margin-bottom:8px;">经停站点:</div>
-                        <div style="display:flex; flex-wrap:wrap; gap:6px;">
-                            ${train.stops.map(stop => `
-                                <span style="font-size:13px; color:#333; background:white; padding:3px 8px; border-radius:4px; border:1px solid #ddd;">${stop.name}</span>
-                            `).join('')}
-                        </div>
-                    </div>
-                    <div style="display:flex; gap:8px;">
-                        <button onclick="judgeTrain(${index}, '特快')" style="flex:1; padding:8px; background:#e63946; font-size:13px;">特快</button>
-                        <button onclick="judgeTrain(${index}, '快车')" style="flex:1; padding:8px; background:#f5a623; font-size:13px;">快车</button>
-                        <button onclick="judgeTrain(${index}, '普通')" style="flex:1; padding:8px; background:#999; font-size:13px;">普通</button>
-                    </div>
-                    <button onclick="undoJudgeTrain(${index})" style="padding:8px 12px; background:#999; font-size:12px; border-radius:4px; color:white;">撤销</button>
-                </div>
-            `}).join('')}
-        `;
-    }
-
-    function judgeTrain(index, newType) {
-        const [trainCode, train] = currentJudgingTrains[index];
-        if (!train) return;
-        
-        const typeColors = {
-            '特快': '#e63946',
-            '快车': '#f5a623',
-            '普通': '#999'
-        };
-        
-        train.type = newType;
-        train.typeColor = typeColors[newType];
-        
-        currentJudgingTrains.splice(index, 1);
-        renderJudgeList();
-    }
-
-    function saveJudgeResult() {
-        const judgeData = {};
-        Object.entries(allTrainsDetail).forEach(([code, train]) => {
-            judgeData[code] = {
-                type: train.type,
-                typeColor: train.typeColor,
-                stops: train.stops.map(stop => ({ name: stop.name, time: stop.time })),
-                terminal: train.terminal
-            };
-        });
-
-        const jsonStr = JSON.stringify(judgeData, null, 2);
-        const blob = new Blob([jsonStr], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'judge_result.json';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-
-        // 显示成功提示
-        const originalContent = document.getElementById('judgeContent').innerHTML;
-        document.getElementById('judgeContent').innerHTML = '<div style="padding:20px; text-align:center; color:#4a90e2;">判定结果已保存为 judge_result.json</div>';
-        setTimeout(() => {
-            renderJudgeList();
-        }, 2000);
-    }
-
-    function resetAllJudges() {
-        if (!confirm('确定要重置所有列车判定吗？此操作将清除所有判定结果。')) {
-            return;
-        }
-
-        // 重置所有列车为普通等级
-        Object.entries(allTrainsDetail).forEach(([code, train]) => {
-            train.type = "普通";
-            train.typeColor = "#999";
-        });
-
-        // 重新显示当前待判定的列车（此时为空，因为都被重置为普通了）
-        currentJudgingTrains = Object.entries(allTrainsDetail)
-            .filter(([code, train]) => train.type === '特快' || train.type === '快车')
-            .sort((a, b) => a[0].localeCompare(b[0]));
-
-        renderJudgeList();
-    }
-
-    function undoJudgeTrain(index) {
-        const [trainCode, train] = currentJudgingTrains[index];
-        if (!train) return;
-
-        // 恢复为"普通"列车
-        train.type = "普通";
-        train.typeColor = "#999";
-
-        // 从当前列表中移除
-        currentJudgingTrains.splice(index, 1);
-        renderJudgeList();
-    }
 
     // 初始化线路分类
     const lineCategories = {
@@ -577,15 +1082,6 @@
         "琶莲城际": ["琶洲", "深井", "化龙南", "广州莲花山"],
         "穗深城际": ["新塘南", "中堂", "望牛墩", "东莞西", "洪梅", "东莞港", "厚街", "虎门北", "虎门东", "长安西", "长安", "沙井西", "福海西", "深圳机场北", "深圳机场"]
     };
-
-    // 标题点击事件 - 点击5次进入判官页面
-    document.getElementById('pageTitle').addEventListener('click', function() {
-        clickCount++;
-        if (clickCount >= 5) {
-            showJudgePage();
-            clickCount = 0;
-        }
-    });
 
     // 开始初始化
     window.onload = function() {
