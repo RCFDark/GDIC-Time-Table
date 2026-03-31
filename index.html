@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>广东城际时刻表</title>
+    <style>
+        :root { 
+            --blue: #4a90e2; 
+            --bg: #f5f5f7; 
+            --text: #333; 
+            --gray: #999; 
+            --disabled-bg: #e0e0e0; 
+            --disabled-border: #ccc;
+        }
+        body { font-family: -apple-system, sans-serif; background: var(--bg); margin: 0; padding-bottom: 50px; color: var(--text); }
+        .header { background: white; padding: 18px; text-align: center; border-bottom: 1px solid #ddd; }
+        .search-area { background: white; padding: 12px 15px; display: flex; gap: 10px; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
+        input { flex: 1; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; outline: none; }
+        button { padding: 0 18px; background: var(--blue); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .station-selector { padding: 15px; background: white; margin-bottom: 10px; }
+        .section-title { font-size: 13px; color: #999; margin-bottom: 10px; font-weight: bold; }
+        .station-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+        .station-btn { background: #f0f2f5; padding: 8px 2px; border-radius: 6px; text-align: center; font-size: 13px; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .hot-station { background: #eef5ff; color: var(--blue); font-weight: bold; border: 1px solid #d0e4ff; }
+        .direction-bar { background: rgba(238, 245, 255, 0.98); backdrop-filter: blur(8px); padding: 12px 15px; font-weight: bold; color: var(--blue); border-bottom: 1px solid #d0e4ff; font-size: 15px; position: sticky; top: 61px; z-index: 90; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .direction-bar.disabled { background: var(--disabled-bg) !important; color: #666 !important; border-bottom: 1px solid var(--disabled-border) !important; backdrop-filter: none; }
+        .hour-row { display: flex; background: white; border-bottom: 1px solid #f2f2f2; min-height: 60px; }
+        .hour-label { width: 65px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #666; border-right: 2px solid #f5f5f5; font-size: 18px; background: #fafafa; }
+        .mins-list { flex: 1; padding: 8px 15px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+        .min-item { color: var(--blue); font-size: 18px; font-weight: 600; cursor: pointer; padding: 5px; }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(3px); }
+        .modal-content { background: white; margin: 3vh auto; border-radius: 12px; width: 92%; max-width: 450px; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; }
+        .modal-header { background: var(--blue); color: white; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+        .modal-body { flex: 1; overflow-y: auto; padding: 0 15px; }
+        .stop-row { display: flex; align-items: center; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
+        .stop-times-detail { display: grid; grid-template-columns: 95px 95px; gap: 8px; justify-content: end; font-family: 'Arial', monospace; }
+        .stop-time-tag { background: #f4f4f4; padding: 3px 0; border-radius: 4px; width: 95px; text-align: center; font-size: 12px; }
+        .time-placeholder { width: 95px; }
+        .current-stop-row { background: #f0f7ff; margin: 0 -15px; padding: 8px 15px; border-left: 5px solid var(--blue); }
+    </style>
+</head>
+<body>
+<div class="header"><h2 id="pageTitle" style="margin:0; cursor:pointer;">广东城际时刻表</h2></div>
+<div class="search-area">
+    <input type="text" id="stationInput" placeholder="输入站名或车次号" onkeydown="if(event.keyCode==13) doSearch()">
+    <button onclick="doSearch()">查询</button>
+</div>
+<div id="quickSelector" class="station-selector">
+    <div class="section-title">热门站点</div>
+    <div class="station-grid">
+        <div class="station-btn hot-station" onclick="clickStation('飞霞')">飞霞</div>
+        <div class="station-btn hot-station" onclick="clickStation('清城')">清城</div>
+        <div class="station-btn hot-station" onclick="clickStation('花都')">花都</div>
+        <div class="station-btn hot-station" onclick="clickStation('广州白云')">广州白云</div>
+        <div class="station-btn hot-station" onclick="clickStation('白云机场北')">白云机场北</div>
+        <div class="station-btn hot-station" onclick="clickStation('白云机场东')">白云机场东</div>
+        <div class="station-btn hot-station" onclick="clickStation('竹料')">竹料</div>
+        <div class="station-btn hot-station" onclick="clickStation('科韵路')">科韵路</div>
+        <div class="station-btn hot-station" onclick="clickStation('琶洲')">琶洲</div>
+        <div class="station-btn hot-station" onclick="clickStation('番禺')">番禺</div>
+        <div class="station-btn hot-station" onclick="clickStation('广州长隆')">广州长隆</div>
+        <div class="station-btn hot-station" onclick="clickStation('广州莲花山')">广州莲花山</div>
+        <div class="station-btn hot-station" onclick="clickStation('顺德北')">顺德北</div>
+        <div class="station-btn hot-station" onclick="clickStation('佛山西')">佛山西</div>
+        <div class="station-btn hot-station" onclick="clickStation('三水北')">三水北</div>
+        <div class="station-btn hot-station" onclick="clickStation('鼎湖东')">鼎湖东</div>
+        <div class="station-btn hot-station" onclick="clickStation('肇庆')">肇庆</div>
+        <div class="station-btn hot-station" onclick="clickStation('东莞西')">东莞西</div>
+        <div class="station-btn hot-station" onclick="clickStation('西平西')">西平西</div>
+        <div class="station-btn hot-station" onclick="clickStation('松山湖北')">松山湖北</div>
+        <div class="station-btn hot-station" onclick="clickStation('常平南')">常平南</div>
+        <div class="station-btn hot-station" onclick="clickStation('陈江南')">陈江南</div>
+        <div class="station-btn hot-station" onclick="clickStation('西湖东')">西湖东</div>
+        <div class="station-btn hot-station" onclick="clickStation('云山')">云山</div>
+        <div class="station-btn hot-station" onclick="clickStation('惠州北')">惠州北</div>
+    </div>
+    <div class="section-title">其他站点</div>
+    <div id="otherStations" class="station-grid"></div>
+</div>
+<div id="board"></div>
+<div id="detailModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span id="modalTitle" style="font-weight:bold;">车次详情</span>
+            <span style="font-size:28px; cursor:pointer" onclick="closeModal()">&times;</span>
+        </div>
+        <div id="modalBody" class="modal-body"></div>
+    </div>
+</div>
+
+<div id="judgeModal" class="modal">
+    <div class="modal-content" style="max-width: 500px;">
+        <div class="modal-header" style="background: #e63946;">
+            <span style="font-weight:bold;">列车等级判定</span>
+            <span style="font-size:28px; cursor:pointer" onclick="closeJudgeModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div id="judgeContent"></div>
+        </div>
+        <div style="padding:15px; border-top:1px solid #eee; background:#f9f9f9; display:flex; gap:10px;">
+            <button onclick="resetAllJudges()" style="flex:1; padding:10px; background:#666; font-size:14px;">重置所有判定</button>
+            <button onclick="saveJudgeResult()" style="flex:1; padding:10px; background:#4a90e2; font-size:14px;">保存判定结果</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let allTrainsDetail = {};
+    let foundStations = new Set();
+    let clickCount = 0;
+    let currentJudgingTrains = [];
+
+    async function init() {
+        console.log('开始初始化...');
+        try {
+            // 优先加载判定结果
+            console.log('尝试加载 judge_result.json...');
+            const judgeResponse = await fetch('judge_result.json');
+            if (judgeResponse.ok) {
+                console.log('成功加载 judge_result.json');
+                const judgeData = await judgeResponse.json();
+                console.log('手动分类数据加载完成，共', Object.keys(judgeData).length, '个车次');
+                
+                // 如果有判定结果，只加载原始数据，然后应用判定结果
+                const dataResponse = await fetch('gzmtr_schedule.json');
+                const data = await dataResponse.json();
+                console.log('原始数据加载完成，开始解析...');
+                parseJSON(data);
+                console.log('原始数据解析完成，应用手动分类...');
+                applyJudgeResults(judgeData);
+                console.log('手动分类应用完成，开始finalize...');
+                finalizeData();
+                console.log('开始渲染站点...');
+                renderCategorizedStations();
+                console.log('站点渲染完成');
+                document.getElementById('stationInput').disabled = false;
+                console.log('初始化完成 - 使用手动分类结果');
+                return;
+            } else {
+                console.log('judge_response 不 OK');
+            }
+        } catch (e) {
+            console.log('没有找到判定结果文件，使用默认配置:', e);
+        }
+
+        // 默认加载方式
+        console.log('使用默认加载方式...');
+        try {
+            const response = await fetch('gzmtr_schedule.json');
+            const data = await response.json();
+            console.log('数据加载成功，开始解析...');
+            parseJSON(data);
+            console.log('数据解析完成，开始finalize...');
+            finalizeData();
+            console.log('开始渲染站点...');
+            renderCategorizedStations();
+            console.log('站点渲染完成');
+            document.getElementById('stationInput').disabled = false;
+            console.log('初始化完成 - 使用默认自动分类');
+        } catch (e) {
+            console.error('初始化失败:', e);
+            alert('数据加载失败，请检查网络或文件是否存在');
+        }
+    }
+
+    function applyJudgeResults(judgeData) {
+        console.log('应用手动分类结果，共', Object.keys(judgeData).length, '个车次');
+        Object.entries(judgeData).forEach(([code, judgeResult]) => {
+            const train = allTrainsDetail[code];
+            if (train) {
+                train.type = judgeResult.type;
+                train.typeColor = judgeResult.typeColor;
+                console.log('手动分类:', code, '->', judgeResult.type);
+            }
+        });
+    }
+
+    function parseJSON(data) {
+        try {
+            console.log('开始解析JSON数据，数据条目数量:', Object.keys(data).length);
+            Object.entries(data).forEach(([routeKey, route]) => {
+                // 站点映射：stationId -> stationName
+                const stationMap = {};
+                route.stationList.forEach(station => {
+                    stationMap[station.stationId] = station.stationName;
+                });
+
+                // 处理每个车次
+                console.log('处理线路:', routeKey, '车次数量:', route.trainTimeList.length);
+                route.trainTimeList.forEach(train => {
+                    const trainCode = train.trainNumber.name;
+                    if (!allTrainsDetail[trainCode]) {
+                        allTrainsDetail[trainCode] = { stops: [] };
+                    }
+
+                    // 处理每个站点的到达时间
+                    train.stationArriveTimeList.forEach(timeInfo => {
+                        const stationId = timeInfo.stationId;
+                        const arriveTime = timeInfo.arriveTime;
+                        
+                        if (!stationMap[stationId]) return;
+                        
+                        foundStations.add(stationMap[stationId]);
+                        
+                        // 检查该车次是否已经记录过这个站点
+                        const existingStop = allTrainsDetail[trainCode].stops.find(s => s.name === stationMap[stationId]);
+                        
+                        if (existingStop) {
+                            // 如果已经记录过，且当前有有效时间（不是"-"），则更新时间
+                            if (arriveTime && arriveTime !== "-") {
+                                existingStop.time = arriveTime;
+                            }
+                        } else {
+                            // 如果没有记录过，且当前有有效时间，则添加
+                            if (arriveTime && arriveTime !== "-") {
+                                allTrainsDetail[trainCode].stops.push({
+                                    name: stationMap[stationId],
+                                    time: arriveTime
+                                });
+                            }
+                        }
+                    });
+                });
+            });
+        } catch (e) {
+            console.error('JSON解析失败:', e);
+        }
+    }
+
+    function finalizeData() {
+        console.log('开始 finalizeData，自动分类处理...');
+        Object.keys(allTrainsDetail).forEach(code => {
+            const t = allTrainsDetail[code];
+            // 严格按时间先后排序
+            t.stops.sort((a, b) => {
+                const timeA = a.time.replace(':', '');
+                const timeB = b.time.replace(':', '');
+                return timeA.localeCompare(timeB);
+            });
+            
+            // 重新确定终点站
+            if (t.stops.length > 0) {
+                t.terminal = t.stops[t.stops.length - 1].name;
+            }
+
+            // 判定等级 - 只有在没有手动分类的情况下才自动分类
+            const stopCount = t.stops.length;
+            if (!t.type || t.type === "") {
+                if (stopCount <= 5) {
+                    t.type = "特快";
+                    t.typeColor = "#e63946";
+                    console.log('自动分类为特快:', code);
+                } else if (stopCount <= 10) {
+                    t.type = "快车";
+                    t.typeColor = "#f5a623";
+                    console.log('自动分类为快车:', code);
+                } else {
+                    t.type = "普通";
+                    t.typeColor = "#999";
+                    console.log('自动分类为普通:', code);
+                }
+            } else {
+                console.log('保留手动分类:', code, '->', t.type);
+            }
+        });
+        console.log('finalizeData 完成');
+    }
+
+    function renderCategorizedStations() {
+        console.log('renderCategorizedStations 开始执行，找到的站点数量:', foundStations.size);
+        console.log('所有站点:', Array.from(foundStations));
+        const grid = document.getElementById('otherStations');
+        grid.innerHTML = "";
+        const HOTS = ['飞霞', '清城', '花都', '广州白云', '白云机场北', '白云机场东', '竹料', '科韵路', '琶洲', '番禺', '广州长隆', '广州莲花山', '顺德北', '佛山西', '三水北', '鼎湖东', '肇庆', '东莞西', '西平西', '松山湖北', '常平南', '陈江南', '西湖东', '云山', '惠州北'];
+        console.log('热门站点:', HOTS);
+        
+        for (let cat in lineCategories) {
+            console.log('处理线路分类:', cat);
+            const toShow = lineCategories[cat].filter(s => foundStations.has(s));
+            console.log(`${cat} 线路的有效站点:`, toShow);
+            if (toShow.length > 0) {
+                const title = document.createElement('div');
+                title.style = "grid-column: 1 / -1; font-size: 14px; color: #888; margin: 20px 0 8px 5px; font-weight: 600; display: flex; align-items: center;";
+                title.innerHTML = `<span style="width:3px; height:14px; background:var(--blue); margin-right:8px;"></span>${cat}`;
+                grid.appendChild(title);
+                toShow.forEach(name => {
+                    const btn = document.createElement('div');
+                    btn.className = 'station-btn';
+                    btn.innerText = name;
+                    btn.onclick = () => { document.getElementById('stationInput').value = name; doSearch(); };
+                    grid.appendChild(btn);
+                });
+            }
+        }
+        console.log('renderCategorizedStations 完成，grid.innerHTML长度:', grid.innerHTML.length);
+    }
+
+    function getTypeTag(train) {
+        if (train.type === "普通") return "";
+        return `<span style="background:${train.typeColor}; color:white; font-size:10px; padding:1px 4px; border-radius:3px; margin-left:5px; vertical-align:middle; font-weight:bold;">${train.type}</span>`;
+    }
+
+    function clickStation(name) {
+        const input = document.getElementById('stationInput');
+        if (input) {
+            input.value = name;
+            doSearch();
+        }
+    }
+
+    function doSearch() {
+        const val = document.getElementById('stationInput').value.trim();
+        if (!val) return;
+        document.getElementById('quickSelector').style.display = 'none';
+        const board = document.getElementById('board');
+        board.innerHTML = `<div style="padding:15px; text-align:center; color:var(--blue); font-size:14px;" onclick="location.reload()">← 返回重新选择车站</div>`;
+
+        // 判断是否是车次号（以字母+数字或纯数字）
+        const isTrainCode = /^[A-Za-z]?\d+$/.test(val.toUpperCase()) || allTrainsDetail[val.toUpperCase()];
+        const searchVal = val.toUpperCase();
+
+        if (isTrainCode && allTrainsDetail[searchVal]) {
+            // 查询车次
+            showTrainSchedule(searchVal);
+            return;
+        }
+
+        // 查询站点
+        const matched = [];
+        Object.keys(allTrainsDetail).forEach(code => {
+            const stop = allTrainsDetail[code].stops.find(s => s.name === val);
+            if (stop) matched.push({ code, dest: allTrainsDetail[code].terminal, time: stop.time, raw: allTrainsDetail[code] });
+        });
+
+        const groups = {};
+        matched.forEach(m => { if (!groups[m.dest]) groups[m.dest] = []; groups[m.dest].push(m); });
+
+        Object.keys(groups).sort().forEach(dest => {
+            const bar = document.createElement('div');
+            bar.className = 'direction-bar';
+            bar.innerHTML = `<span style="font-size:12px; opacity:0.8">往</span> ${dest}`;
+            board.appendChild(bar);
+
+            const hours = {};
+            groups[dest].forEach(m => {
+                const h = m.time.split(':')[0];
+                if (!hours[h]) hours[h] = [];
+                hours[h].push(m);
+            });
+
+            for (let i = 0; i <= 23; i++) {
+                const hStr = i.toString().padStart(2, '0');
+                if (!hours[hStr]) continue;
+                const row = document.createElement('div');
+                row.className = 'hour-row';
+                const minsHtml = hours[hStr].sort((a,b) => a.time.localeCompare(b.time))
+                    .map(m => `
+                        <div class="min-item" onclick="showDetail('${m.code}', '${val}')" style="position:relative; padding-top:10px; height:auto;">
+                            ${m.time.split(':')[1]}
+                            <div style="font-size:8px; transform:scale(0.8); color:${m.raw.typeColor}; font-weight:bold; margin-top:-2px;">${m.raw.type === '普通' ? '' : m.raw.type}</div>
+                        </div>
+                    `)
+                    .join('');
+                row.innerHTML = `<div class="hour-label">${hStr}</div><div class="mins-list">${minsHtml}</div>`;
+                board.appendChild(row);
+            }
+        });
+    }
+
+    function showTrainSchedule(trainCode) {
+        const train = allTrainsDetail[trainCode];
+        const board = document.getElementById('board');
+        
+        const header = document.createElement('div');
+        header.style = "padding:20px; background:white; text-align:center; border-bottom:1px solid #eee;";
+        header.innerHTML = `
+            <h3 style="margin:0; color:var(--blue);">${trainCode}次 ${getTypeTag(train)}</h3>
+            <div style="color:#666; font-size:14px; margin-top:5px;">${train.type} · 共 ${train.stops.length} 站</div>
+        `;
+        board.appendChild(header);
+
+        train.stops.forEach((stop, idx) => {
+            const row = document.createElement('div');
+            row.className = 'hour-row';
+            row.style = "cursor:pointer; transition:background 0.2s;";
+            row.onmouseover = () => row.style.background = '#f8faff';
+            row.onmouseout = () => row.style.background = 'white';
+            row.onclick = () => showDetail(trainCode, stop.name);
+            
+            row.innerHTML = `
+                <div class="hour-label" style="width:80px; font-size:18px;">${stop.time}</div>
+                <div class="mins-list" style="font-size:16px; font-weight:500; color:${idx===0?'var(--blue)':idx===train.stops.length-1?'var(--blue)':'#333'};">
+                    ${stop.name}
+                    ${idx===0 ? '<span style="font-size:12px; color:var(--blue); margin-left:10px;">始发站</span>' : ''}
+                    ${idx===train.stops.length-1 ? '<span style="font-size:12px; color:var(--blue); margin-left:10px;">终点站</span>' : ''}
+                </div>
+            `;
+            board.appendChild(row);
+        });
+    }
+
+    function showDetail(code, currentStation) {
+        const train = allTrainsDetail[code];
+        document.getElementById('modalTitle').innerHTML = `${code}次 ${getTypeTag(train)} <span style="font-size:12px; color:#999; font-weight:normal; margin-left:10px;">至 ${train.terminal}</span>`;
+        const body = document.getElementById('modalBody');
+        
+        body.innerHTML = train.stops.map((s, idx) => {
+            const isCurrent = s.name === currentStation;
+            return `
+                <div class="stop-row" style="display:flex; align-items:center; padding: 12px 0; border-bottom:1px solid #f0f0f0; ${isCurrent ? 'background:#f8faff;' : ''}">
+                    <div style="width:60px; text-align:center; font-family:monospace; font-size:16px; color:${isCurrent ? 'var(--blue)' : '#333'}; font-weight:${isCurrent?'bold':'normal'}">
+                        ${s.time}
+                    </div>
+                    <div style="width:20px; display:flex; flex-direction:column; align-items:center; margin:0 10px;">
+                        <div style="width:2px; flex:1; background:${idx===0?'transparent':'#ddd'}"></div>
+                        <div style="width:8px; height:8px; border-radius:50%; background:${isCurrent ? 'var(--blue)' : '#ccc'};"></div>
+                        <div style="width:2px; flex:1; background:${idx===train.stops.length-1?'transparent':'#ddd'}"></div>
+                    </div>
+                    <div style="flex:1; font-size:16px; color:${isCurrent ? 'var(--blue)' : '#333'}; font-weight:${isCurrent?'bold':'normal'}">
+                        ${s.name}
+                    </div>
+                    ${isCurrent ? '<div style="font-size:11px; color:var(--blue); padding-right:10px; font-weight:bold;">本站上车</div>' : ''}
+                </div>
+            `;
+        }).join('');
+        document.getElementById('detailModal').style.display = 'block';
+    }
+
+    function closeModal() { document.getElementById('detailModal').style.display = 'none'; }
+    window.onclick = e => { if (e.target.className === 'modal') closeModal(); }
+
+    function closeJudgeModal() { document.getElementById('judgeModal').style.display = 'none'; }
+
+    function showJudgePage() {
+        const judgeModal = document.getElementById('judgeModal');
+        const judgeContent = document.getElementById('judgeContent');
+        
+        // 显示所有快车和特快列车
+        currentJudgingTrains = Object.entries(allTrainsDetail)
+            .filter(([code, train]) => train.type === '特快' || train.type === '快车')
+            .sort((a, b) => a[0].localeCompare(b[0]));
+        
+        renderJudgeList();
+        judgeModal.style.display = 'block';
+    }
+
+    function renderJudgeList() {
+        const judgeContent = document.getElementById('judgeContent');
+        
+        if (currentJudgingTrains.length === 0) {
+            judgeContent.innerHTML = '<div style="padding:20px; text-align:center; color:#666;">所有列车已判定完成</div>';
+            return;
+        }
+        
+        judgeContent.innerHTML = `
+            <div style="padding:15px; background:#f8f8f8; border-radius:8px; margin-bottom:15px;">
+                <div style="font-size:14px; color:#666; margin-bottom:5px;">待判定列车数量: <strong>${currentJudgingTrains.length}</strong></div>
+                <div style="font-size:12px; color:#999;">请逐个确认列车等级是否正确</div>
+            </div>
+            ${currentJudgingTrains.map(([code, train], index) => {
+                const escapedCode = code.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                return `
+                <div style="margin-bottom:12px; padding:12px; background:white; border:1px solid #eee; border-radius:8px;">
+                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+                        <span style="font-weight:bold; font-size:16px; color:var(--blue);">${code}</span>
+                        <span style="background:${train.typeColor}; color:white; font-size:12px; padding:3px 8px; border-radius:4px; font-weight:bold;">${train.type}</span>
+                    </div>
+                    <div style="font-size:13px; color:#666; margin-bottom:5px;">停站数: ${train.stops.length} 站</div>
+                    <div style="font-size:12px; color:#999; margin-bottom:10px;">
+                        ${train.stops[0].name} → ${train.stops[train.stops.length-1].name}
+                    </div>
+                    <div style="background:#f9f9f9; padding:10px; border-radius:6px; margin-bottom:10px;">
+                        <div style="font-size:12px; color:#888; margin-bottom:8px;">经停站点:</div>
+                        <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                            ${train.stops.map(stop => `
+                                <span style="font-size:13px; color:#333; background:white; padding:3px 8px; border-radius:4px; border:1px solid #ddd;">${stop.name}</span>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:8px;">
+                        <button onclick="judgeTrain(${index}, '特快')" style="flex:1; padding:8px; background:#e63946; font-size:13px;">特快</button>
+                        <button onclick="judgeTrain(${index}, '快车')" style="flex:1; padding:8px; background:#f5a623; font-size:13px;">快车</button>
+                        <button onclick="judgeTrain(${index}, '普通')" style="flex:1; padding:8px; background:#999; font-size:13px;">普通</button>
+                    </div>
+                    <button onclick="undoJudgeTrain(${index})" style="padding:8px 12px; background:#999; font-size:12px; border-radius:4px; color:white;">撤销</button>
+                </div>
+            `}).join('')}
+        `;
+    }
+
+    function judgeTrain(index, newType) {
+        const [trainCode, train] = currentJudgingTrains[index];
+        if (!train) return;
+        
+        const typeColors = {
+            '特快': '#e63946',
+            '快车': '#f5a623',
+            '普通': '#999'
+        };
+        
+        train.type = newType;
+        train.typeColor = typeColors[newType];
+        
+        currentJudgingTrains.splice(index, 1);
+        renderJudgeList();
+    }
+
+    function saveJudgeResult() {
+        const judgeData = {};
+        Object.entries(allTrainsDetail).forEach(([code, train]) => {
+            judgeData[code] = {
+                type: train.type,
+                typeColor: train.typeColor,
+                stops: train.stops.map(stop => ({ name: stop.name, time: stop.time })),
+                terminal: train.terminal
+            };
+        });
+
+        const jsonStr = JSON.stringify(judgeData, null, 2);
+        const blob = new Blob([jsonStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'judge_result.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        // 显示成功提示
+        const originalContent = document.getElementById('judgeContent').innerHTML;
+        document.getElementById('judgeContent').innerHTML = '<div style="padding:20px; text-align:center; color:#4a90e2;">判定结果已保存为 judge_result.json</div>';
+        setTimeout(() => {
+            renderJudgeList();
+        }, 2000);
+    }
+
+    function resetAllJudges() {
+        if (!confirm('确定要重置所有列车判定吗？此操作将清除所有判定结果。')) {
+            return;
+        }
+
+        // 重置所有列车为普通等级
+        Object.entries(allTrainsDetail).forEach(([code, train]) => {
+            train.type = "普通";
+            train.typeColor = "#999";
+        });
+
+        // 重新显示当前待判定的列车（此时为空，因为都被重置为普通了）
+        currentJudgingTrains = Object.entries(allTrainsDetail)
+            .filter(([code, train]) => train.type === '特快' || train.type === '快车')
+            .sort((a, b) => a[0].localeCompare(b[0]));
+
+        renderJudgeList();
+    }
+
+    function undoJudgeTrain(index) {
+        const [trainCode, train] = currentJudgingTrains[index];
+        if (!train) return;
+
+        // 恢复为"普通"列车
+        train.type = "普通";
+        train.typeColor = "#999";
+
+        // 从当前列表中移除
+        currentJudgingTrains.splice(index, 1);
+        renderJudgeList();
+    }
+
+    // 初始化线路分类
+    const lineCategories = {
+        "广清城际": ["飞霞", "洲心", "燕湖", "清城", "龙塘镇", "银盏", "狮岭", "乐同", "花都", "神山", "江高", "白云湖", "广州白云"],
+        "广州东环城际": ["番禺", "大石东", "广州大学城", "琶洲", "科韵路", "岑村", "龙洞", "大源", "帽峰山", "竹料", "白云机场东", "白云机场南", "白云机场北", "花山镇", "花城街", "花都"],
+        "广肇城际": ["肇庆", "端州", "鼎湖山", "鼎湖东", "四会", "大旺", "云东海", "三水北", "狮山北", "狮山", "佛山西", "张槎", "顺德北", "北滘西", "陈村", "番禺"],
+        "广惠城际": ["番禺", "广州长隆", "东环", "官桥北", "广州莲花山", "麻涌", "东莞西", "道滘", "西平西", "东城南", "寮步", "松山湖北", "大朗镇", "常平南", "常平东", "樟木头东", "银瓶", "沥林北", "陈江南", "惠环", "龙丰", "西湖东", "云山", "小金口", "惠州北"],
+        "琶莲城际": ["琶洲", "深井", "化龙南", "广州莲花山"],
+        "穗深城际": ["新塘南", "中堂", "望牛墩", "东莞西", "洪梅", "东莞港", "厚街", "虎门北", "虎门东", "长安西", "长安", "沙井西", "福海西", "深圳机场北", "深圳机场"]
+    };
+
+    // 标题点击事件 - 点击5次进入判官页面
+    document.getElementById('pageTitle').addEventListener('click', function() {
+        clickCount++;
+        if (clickCount >= 5) {
+            showJudgePage();
+            clickCount = 0;
+        }
+    });
+
+    // 开始初始化
+    window.onload = function() {
+        console.log('页面加载完成，开始初始化...');
+        init();
+    };
+    
+    // 添加错误处理
+    window.onerror = function(msg, url, line) {
+        console.error('JavaScript错误:', msg, 'at', url, ':', line);
+        return false;
+    };
+</script>
+</body>
+</html>
