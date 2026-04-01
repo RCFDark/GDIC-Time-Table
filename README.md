@@ -149,5 +149,5 @@ npx serve
 > 💡 **提示**：本工具为静态网页，所有数据存储在 JSON 文件中，可自行更新数据源以保持时刻表准确。
 
 <p align="center">
-  Made with ❤️ for Guangzhou Metro
+  Made with ❤️ for Guangdong Intercity
 </p>
