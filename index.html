@@ -613,7 +613,10 @@
     </style>
 </head>
 <body>
-<div class="header"><h2 id="pageTitle" style="margin:0; cursor:pointer;">广东城际时刻表</h2></div>
+<div class="header">
+    <h2 id="pageTitle" style="margin:0; cursor:pointer;">广东城际时刻表</h2>
+    <button id="mapBtn" onclick="showMap()" style="position:absolute; right:16px; top:50%; transform:translateY(-50%); padding:6px 14px; font-size:13px; background:var(--metro-red); color:white; border:none; border-radius:20px; cursor:pointer; font-weight:600; box-shadow:0 2px 8px rgba(200,16,46,0.3);">查看线网图</button>
+</div>
 
 <div id="navBar" class="nav-bar">
     <button class="nav-btn" onclick="goBack()">← 返回</button>
@@ -708,6 +711,24 @@
             <span style="font-size:28px; cursor:pointer" onclick="closeModal()">&times;</span>
         </div>
         <div id="modalBody" class="modal-body"></div>
+    </div>
+</div>
+
+<div id="mapModal" class="modal">
+    <div class="modal-content" style="max-width:95vw; width:95vw; height:90vh; display:flex; flex-direction:column;">
+        <div class="modal-header" style="flex-shrink:0;">
+            <span style="font-weight:bold;">线网图</span>
+            <div style="display:flex; align-items:center; gap:8px;">
+                <button onclick="zoomMap(-0.2)" style="background:rgba(255,255,255,0.2); border:none; color:white; width:32px; height:32px; border-radius:50%; cursor:pointer; font-size:20px; font-weight:bold;">-</button>
+                <button onclick="resetMapZoom()" style="background:rgba(255,255,255,0.2); border:none; color:white; padding:4px 12px; border-radius:16px; cursor:pointer; font-size:12px;">重置</button>
+                <button onclick="zoomMap(0.2)" style="background:rgba(255,255,255,0.2); border:none; color:white; width:32px; height:32px; border-radius:50%; cursor:pointer; font-size:20px; font-weight:bold;">+</button>
+                <span style="font-size:28px; cursor:pointer; margin-left:8px;" onclick="closeMapModal()">&times;</span>
+            </div>
+        </div>
+        <div id="mapContainer" style="flex:1; overflow:hidden; background:#2a2a2a; position:relative; cursor:grab;">
+            <img id="mapImage" src="map-20260128.jpg" style="height:100%; display:block; margin:0 auto; transform-origin:center center;" alt="线网图">
+        </div>
+        <div style="padding:10px; text-align:center; background:rgba(0,0,0,0.05); font-size:12px; color:var(--gray); flex-shrink:0;">滚轮缩放 | 拖拽移动</div>
     </div>
 </div>
 
@@ -1191,8 +1212,87 @@
         document.getElementById('detailModal').style.display = 'block';
     }
 
-    function closeModal() { document.getElementById('detailModal').style.display = 'none'; }
-    window.onclick = e => { if (e.target.className === 'modal') closeModal(); }
+function closeModal() { document.getElementById('detailModal').style.display = 'none'; }
+
+let mapScale = 1;
+let mapPosX = 0;
+let mapPosY = 0;
+
+function showMap() {
+    document.getElementById('mapModal').style.display = 'block';
+    resetMapZoom();
+}
+
+function closeMapModal() { 
+    document.getElementById('mapModal').style.display = 'none'; 
+}
+
+function zoomMap(delta) {
+    mapScale = Math.max(0.5, Math.min(4, mapScale + delta));
+    updateMapTransform();
+}
+
+function resetMapZoom() {
+    mapScale = 1;
+    mapPosX = 0;
+    mapPosY = 0;
+    updateMapTransform();
+}
+
+function updateMapTransform() {
+    const img = document.getElementById('mapImage');
+    if (img) {
+        img.style.transform = `translate(${mapPosX}px, ${mapPosY}px) scale(${mapScale})`;
+    }
+}
+
+function initMapDrag() {
+    const container = document.getElementById('mapContainer');
+    if (!container) return;
+
+    let isDragging = false;
+    let startX = 0;
+    let startY = 0;
+    let startPosX = 0;
+    let startPosY = 0;
+
+    container.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        zoomMap(e.deltaY > 0 ? -0.15 : 0.15);
+    });
+
+    const onPointerDown = (e) => {
+        isDragging = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        startPosX = mapPosX;
+        startPosY = mapPosY;
+        container.style.cursor = 'grabbing';
+        container.setPointerCapture(e.pointerId);
+        e.preventDefault();
+    };
+
+    const onPointerMove = (e) => {
+        if (!isDragging) return;
+        mapPosX = startPosX + (e.clientX - startX);
+        mapPosY = startPosY + (e.clientY - startY);
+        updateMapTransform();
+    };
+
+    const onPointerUp = (e) => {
+        isDragging = false;
+        container.style.cursor = 'grab';
+        container.releasePointerCapture(e.pointerId);
+    };
+
+    container.addEventListener('pointerdown', onPointerDown);
+    container.addEventListener('pointermove', onPointerMove);
+    container.addEventListener('pointerup', onPointerUp);
+    container.addEventListener('pointercancel', onPointerUp);
+    container.addEventListener('pointerleave', onPointerUp);
+}
+
+window.onclick = e => { if (e.target.className === 'modal') { closeModal(); closeMapModal(); } }
 
     // 初始化线路分类
     const lineCategories = {
@@ -1211,6 +1311,7 @@
     window.onload = function() {
         console.log('页面加载完成，开始初始化...');
         init();
+        initMapDrag();
     };
     
     // 添加错误处理
