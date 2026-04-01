@@ -24,7 +24,7 @@
         }
         
         body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif; 
+            font-family: 'Microsoft YaHei', sans-serif; 
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             background-attachment: fixed;
             margin: 0; 
@@ -38,14 +38,13 @@
             background: var(--glass-bg);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            padding: 20px; 
+            padding: 12px 16px; 
             text-align: center; 
             border-bottom: 3px solid var(--metro-red);
             box-shadow: 0 8px 32px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
             z-index: 200;
-            border-radius: 0 0 var(--card-radius) var(--card-radius);
             transition: all 0.3s ease;
         }
         
@@ -62,6 +61,51 @@
         .header h2:hover {
             transform: translateY(-2px);
             color: var(--metro-red);
+        }
+        
+        .nav-bar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 12px 20px;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 64px;
+            z-index: 199;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            border-radius: 12px;
+            margin: 8px 12px 0px 12px;
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+        
+        .nav-btn {
+            background: linear-gradient(135deg, var(--metro-red) 0%, #E74C3C 100%);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(200,16,46,0.3);
+        }
+        
+        .nav-btn:hover {
+            background: linear-gradient(135deg, #A8101E 0%, #C0392B 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(200,16,46,0.4);
+        }
+        
+        .nav-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--metro-dark);
+            flex: 1;
+            text-align: center;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
         
         .search-area { 
@@ -255,27 +299,39 @@
             left: 100%;
         }
         
+        .maglev-station {
+            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+            color: #2E7D32;
+            border: 2px solid #4CAF50;
+            font-weight: 600;
+            position: relative;
+        }
+        
         .direction-bar { 
             background: linear-gradient(135deg, var(--metro-red) 0%, #E74C3C 100%);
             color: white; 
-            padding: 16px 20px; 
+            padding: 14px 20px; 
             font-weight: 700; 
             border-bottom: 3px solid var(--metro-yellow);
             font-size: 16px; 
             position: sticky; 
-            top: 160px; 
-            z-index: 90; 
-            border-radius: var(--card-radius);
-            box-shadow: 0 8px 32px rgba(200,16,46,0.2);
+            top: 128px;
+            z-index: 90;
+            box-shadow: 0 4px 16px rgba(200,16,46,0.25);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            display: none;
+            margin: 0 12px 8px 12px;
+            border-radius: 12px;
+        }
+        
+        .direction-bar.active {
+            display: block;
         }
         
         .direction-bar:hover {
             transform: translateY(-2px);
-            box-shadow: 0 12px 40px rgba(200,16,46,0.3);
+            box-shadow: 0 10px 30px rgba(200,16,46,0.35);
         }
         
         .direction-bar.disabled { 
@@ -292,10 +348,10 @@
             -webkit-backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(255,255,255,0.2);
             min-height: 70px;
-            transition: all 0.3s ease;
             border-radius: var(--card-radius);
-            margin: 8px 12px;
+            margin: 6px 12px;
             overflow: hidden;
+            will-change: transform;
         }
         
         .hour-row:hover {
@@ -313,8 +369,6 @@
             border-right: 2px solid rgba(255,255,255,0.3); 
             font-size: 20px; 
             background: rgba(255,255,255,0.3);
-            font-family: monospace;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
         .hour-label::after { 
@@ -338,8 +392,8 @@
             font-size: 20px; 
             font-weight: 700; 
             cursor: pointer; 
-            padding: 10px 16px;
-            border-radius: 12px;
+            padding: 8px;
+            border-radius: 8px;
             transition: all 0.3s ease;
             background: rgba(255,255,255,0.6);
             backdrop-filter: blur(5px);
@@ -347,6 +401,13 @@
             position: relative;
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 60px;
+            height: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
         }
         
         .min-item::before {
@@ -535,138 +596,11 @@
         }
         
         .back-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--metro-red);
-            font-size: 15px;
-            font-weight: 600;
-            padding: 12px 20px;
-            background: linear-gradient(135deg, #FFF5E6 0%, #FFE6CC 100%);
-            border-radius: 20px;
-            cursor: pointer;
-            margin: 12px;
-            border: 2px solid var(--metro-red);
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(200,16,46,0.2);
-            backdrop-filter: blur(5px);
-        }
-        
-        .back-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(200,16,46,0.3);
-            background: linear-gradient(135deg, #FFE6CC 0%, #FFD4A3 100%);
+            display: none;
         }
         
         .fab-back {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--metro-red) 0%, #E74C3C 100%);
-            color: white;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 6px 20px rgba(200,16,46,0.4);
             display: none;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            font-weight: bold;
-            z-index: 1000;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            animation: fabPulse 2s infinite;
-        }
-        
-        .fab-back:hover {
-            transform: translateY(-4px) scale(1.1);
-            box-shadow: 0 8px 30px rgba(200,16,46,0.5);
-            background: linear-gradient(135deg, #A8101E 0%, #C0392B 100%);
-        }
-        
-        .fab-back:active {
-            transform: translateY(-2px) scale(1.05);
-        }
-        
-        @keyframes fabPulse {
-            0%, 100% {
-                box-shadow: 0 6px 20px rgba(200,16,46,0.4);
-            }
-            50% {
-                box-shadow: 0 6px 30px rgba(200,16,46,0.6);
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .fab-back {
-                width: 56px;
-                height: 56px;
-                bottom: 20px;
-                right: 20px;
-                font-size: 24px;
-            }
-        }
-        
-        .sticky-back {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(135deg, var(--metro-red) 0%, #E74C3C 100%);
-            color: white;
-            padding: 12px 20px;
-            display: none;
-            align-items: center;
-            justify-content: space-between;
-            z-index: 999;
-            box-shadow: 0 4px 20px rgba(200,16,46,0.3);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            animation: slideDown 0.3s ease;
-        }
-        
-        @keyframes slideDown {
-            from {
-                transform: translateY(-100%);
-            }
-            to {
-                transform: translateY(0);
-            }
-        }
-        
-        .sticky-back-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .sticky-back-btn {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-        }
-        
-        .sticky-back-btn:hover {
-            background: rgba(255,255,255,0.3);
-            transform: translateY(-2px);
-        }
-        
-        .sticky-back-title {
-            font-size: 16px;
-            font-weight: 700;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
         
         .line-indicator {
@@ -681,16 +615,13 @@
 <body>
 <div class="header"><h2 id="pageTitle" style="margin:0; cursor:pointer;">广东城际时刻表</h2></div>
 
-<div id="stickyBack" class="sticky-back">
-    <div class="sticky-back-left">
-        <button class="sticky-back-btn" onclick="goBack()">← 返回</button>
-        <span id="stickyBackTitle" class="sticky-back-title"></span>
-    </div>
-    <button class="sticky-back-btn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑ 顶部</button>
+<div id="navBar" class="nav-bar">
+    <button class="nav-btn" onclick="goBack()">← 返回</button>
+    <span id="navTitle" class="nav-title"></span>
+    <button class="nav-btn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑顶部</button>
 </div>
 
-<!-- 使用指引区域 -->
-<div class="guide-area">
+<div id="guide-area" class="guide-area">
     <div class="guide-title">使用指引</div>
     <div class="guide-content">
         <div class="guide-item">
@@ -708,8 +639,7 @@
     </div>
 </div>
 
-<!-- 图例说明 -->
-<div class="legend">
+<div id="legend" class="legend">
     <div class="legend-title">列车类型说明</div>
     <div class="legend-items">
         <div class="legend-item">
@@ -731,12 +661,9 @@
     </div>
 </div>
 
-<div class="search-area">
+<div id="search-area" class="search-area">
     <input type="text" id="stationInput" placeholder="输入站名或车次号查询" onkeydown="if(event.keyCode==13) doSearch()">
     <button onclick="doSearch()">查询</button>
-</div>
-<div id="backButton" class="back-button" style="display: none;" onclick="goBack()">
-    ← 返回站点选择
 </div>
 
 <div id="quickSelector" class="station-selector">
@@ -774,10 +701,6 @@
 
 <div id="board"></div>
 
-<button id="fabBack" class="fab-back" onclick="goBack()" title="返回站点选择">
-    ←
-</button>
-
 <div id="detailModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -808,6 +731,20 @@
             console.log('开始解析JSON数据...');
             parseJSON(data);
             console.log('JSON解析完成，车次总数:', Object.keys(allTrainsDetail).length);
+            
+            // 加载清远磁浮数据
+            console.log('开始加载 qingyuan_maglev.json...');
+            try {
+                const maglevResponse = await fetch('qingyuan_maglev.json');
+                if (maglevResponse.ok) {
+                    const maglevData = await maglevResponse.json();
+                    console.log('清远磁浮数据加载成功，车次数量:', maglevData.trains.length);
+                    parseMaglevJSON(maglevData);
+                    console.log('清远磁浮数据解析完成');
+                }
+            } catch (e) {
+                console.log('清远磁浮数据加载失败:', e);
+            }
             
             // 完成数据处理
             console.log('开始finalize...');
@@ -896,6 +833,55 @@
         }
     }
 
+    function parseMaglevJSON(data) {
+        try {
+            console.log('开始解析清远磁浮数据，车次数量:', data.trains.length);
+            if (data.note) {
+                console.log('清远磁浮特殊说明:', data.note);
+            }
+            
+            data.trains.forEach(train => {
+                const trainCode = train.train_no;
+                
+                if (!allTrainsDetail[trainCode]) {
+                    allTrainsDetail[trainCode] = { stops: [] };
+                }
+                
+                if (data.note) {
+                    allTrainsDetail[trainCode].specialNote = data.note;
+                }
+                
+                const totalStops = train.stops.length;
+                
+                train.stops.forEach((stop, idx) => {
+                    const stationName = stop.station;
+                    const isStart = idx === 0;
+                    const isEnd = idx === totalStops - 1;
+                    
+                    let displayTime;
+                    if (isStart) {
+                        displayTime = stop.departure_time;
+                    } else if (isEnd) {
+                        displayTime = stop.arrival_time;
+                    } else {
+                        displayTime = stop.departure_time || stop.arrival_time;
+                    }
+                    
+                    foundStations.add(stationName);
+                    
+                    if (displayTime) {
+                        allTrainsDetail[trainCode].stops.push({
+                            name: stationName,
+                            time: displayTime
+                        });
+                    }
+                });
+            });
+        } catch (e) {
+            console.error('清远磁浮数据解析失败:', e);
+        }
+    }
+
     async function finalizeData() {
         console.log('开始 finalizeData...');
         
@@ -961,6 +947,9 @@
                 toShow.forEach(name => {
                     const btn = document.createElement('div');
                     btn.className = 'station-btn';
+                    if (cat === '清远长隆磁浮旅游专线') {
+                        btn.classList.add('maglev-station');
+                    }
                     btn.innerText = name;
                     btn.onclick = () => { 
                         document.getElementById('stationInput').value = name; 
@@ -992,9 +981,11 @@
     function goBack() {
         isSearching = false;
         document.getElementById('quickSelector').style.display = 'block';
-        document.getElementById('backButton').style.display = 'none';
-        document.getElementById('fabBack').style.display = 'none';
-        document.getElementById('stickyBack').style.display = 'none';
+        document.getElementById('search-area').style.display = 'flex';
+        document.getElementById('guide-area').style.display = 'block';
+        document.getElementById('legend').style.display = 'block';
+        document.getElementById('navBar').style.display = 'none';
+        document.getElementById('pageTitle').textContent = '广东城际时刻表';
         document.getElementById('stationInput').value = '';
         document.getElementById('board').innerHTML = '';
     }
@@ -1003,10 +994,21 @@
         const val = document.getElementById('stationInput').value.trim();
         if (!val) return;
         isSearching = true;
+        const currentStation = val;
+        window.scrollTo(0, 0);
+        
         document.getElementById('quickSelector').style.display = 'none';
-        document.getElementById('backButton').style.display = 'inline-flex';
-        document.getElementById('fabBack').style.display = 'flex';
-        document.getElementById('stickyBackTitle').textContent = val;
+        document.getElementById('search-area').style.display = 'none';
+        document.getElementById('guide-area').style.display = 'none';
+        document.getElementById('legend').style.display = 'none';
+        
+        // 显示导航栏并设置站名
+        document.getElementById('navBar').style.display = 'flex';
+        document.getElementById('navTitle').textContent = currentStation;
+        
+        // 设置顶部标题
+        document.getElementById('pageTitle').textContent = '广东城际时刻表';
+        
         const board = document.getElementById('board');
         board.innerHTML = '';
 
@@ -1042,13 +1044,8 @@
 
         Object.keys(groups).sort().forEach(dest => {
             const bar = document.createElement('div');
-            bar.className = 'direction-bar';
-            bar.innerHTML = `
-                <span>往 ${dest}</span>
-                <span style="margin-left:auto; font-size:14px; opacity:0.8;">
-                    ${groups[dest].length} 班
-                </span>
-            `;
+            bar.className = 'direction-bar active';
+            bar.innerHTML = `<span>往 ${dest}</span><span style="margin-left:auto; opacity:0.7;">&emsp;${groups[dest].length}班</span>`;
             board.appendChild(bar);
 
             const hours = {};
@@ -1066,15 +1063,19 @@
                 const minsHtml = hours[hStr].sort((a,b) => a.time.localeCompare(b.time))
                     .map(m => `
                         <div class="min-item" onclick="showDetail('${m.code}', '${val}')" 
-                             style="position:relative; padding:6px 10px; border-radius:4px; 
-                                    background:${m.raw.specialNote ? '#FFF9C4' : '#F8F8F8'}; border:1px solid ${m.raw.specialNote ? '#FBC02D' : 'transparent'};">
-                            <div style="font-size:18px; font-weight:600; color:${m.raw.specialNote ? '#F57F17' : 'inherit'};">
+                             style="position:relative; width:60px; height:60px; display:flex; flex-direction:column; justify-content:center; align-items:center; 
+                                    background:${m.raw.specialNote ? '#FFF9C4' : '#F8F8F8'}; border:1px solid ${m.raw.specialNote ? '#FBC02D' : 'transparent'}; 
+                                    border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+                            <div style="font-size:20px; font-weight:600; color:${m.raw.specialNote ? '#F57F17' : 'inherit'}; margin-bottom:4px;">
                                 ${m.time.split(':')[1]}
                             </div>
-                            <div style="font-size:10px; font-weight:600; 
-                                       color:${m.raw.typeColor}; margin-top:2px;">
-                                ${m.raw.type === '普通' ? '' : m.raw.type}
-                            </div>
+                            ${m.raw.type !== '普通' ? `
+                                <div style="position:absolute; top:2px; right:2px; font-size:10px; font-weight:700; 
+                                           color:${m.raw.typeColor}; background:rgba(255,255,255,0.8); padding:1px 4px; 
+                                           border-radius:3px; min-width:16px; text-align:center;">
+                                    ${m.raw.type === '特快' ? '特' : '快'}
+                                </div>
+                            ` : ''}
                         </div>
                     `)
                     .join('');
@@ -1165,7 +1166,7 @@
             
             return `
                 <div class="stop-row" style="display:flex; align-items:center; padding: 12px 0; border-bottom:1px solid var(--light-gray); ${isCurrent ? 'background:#FFF5E6; margin:0 -16px; padding-left:20px; border-left:4px solid var(--metro-red);' : ''}">
-                    <div style="width:60px; text-align:center; font-family:monospace; font-size:16px; 
+                    <div style="width:60px; text-align:center; font-size:16px; 
                                color:${isCurrent ? 'var(--metro-red)' : (isStart || isEnd ? 'var(--metro-red)' : 'var(--metro-dark)')}; 
                                font-weight:${isCurrent ? '600' : (isStart || isEnd ? '600' : '500')};">
                         ${s.time}
@@ -1200,26 +1201,12 @@
         "广肇城际": ["肇庆", "端州", "鼎湖山", "鼎湖东", "四会", "大旺", "云东海", "三水北", "狮山北", "狮山", "佛山西", "张槎", "顺德北", "北滘西", "陈村", "番禺"],
         "广惠城际": ["番禺", "广州长隆", "东环", "官桥北", "广州莲花山", "麻涌", "东莞西", "道滘", "西平西", "东城南", "寮步", "松山湖北", "大朗镇", "常平南", "常平东", "樟木头东", "银瓶", "沥林北", "陈江南", "惠环", "龙丰", "西湖东", "云山", "小金口", "惠州北"],
         "琶莲城际": ["琶洲", "深井", "化龙南", "广州莲花山"],
-        "穗深城际": ["新塘南", "中堂", "望牛墩", "东莞西", "洪梅", "东莞港", "厚街", "虎门北", "虎门东", "长安西", "长安", "沙井西", "福海西", "深圳机场北", "深圳机场"]
+        "穗深城际": ["新塘南", "中堂", "望牛墩", "东莞西", "洪梅", "东莞港", "厚街", "虎门北", "虎门东", "长安西", "长安", "沙井西", "福海西", "深圳机场北", "深圳机场"],
+        "清远长隆磁浮旅游专线": ["清远长隆", "湖蝶湾", "长隆森林王国"]
     };
 
     let lastScrollTop = 0;
     let isSearching = false;
-    
-    window.addEventListener('scroll', function() {
-        if (!isSearching) return;
-        
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const stickyBack = document.getElementById('stickyBack');
-        
-        if (scrollTop > 200) {
-            stickyBack.style.display = 'flex';
-        } else {
-            stickyBack.style.display = 'none';
-        }
-        
-        lastScrollTop = scrollTop;
-    });
     
     window.onload = function() {
         console.log('页面加载完成，开始初始化...');

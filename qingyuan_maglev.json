@@ -1,0 +1,168 @@
+{
+  "description": "清远磁浮列车时刻表",
+  "note": "每周一停止对外运营服务（节假日除外）",
+  "trains": [
+    {
+      "train_no": "00104",
+      "direction": "清远长隆 → 长隆森林王国",
+      "stops": [
+        { "station": "清远长隆", "arrival_time": "09:38", "departure_time": "09:40" },
+        { "station": "湖蝶湾", "arrival_time": "09:44", "departure_time": "09:45" },
+        { "station": "长隆森林王国", "arrival_time": "09:55", "departure_time": null }
+      ]
+    },
+    {
+      "train_no": "00105",
+      "direction": "长隆森林王国 → 清远长隆",
+      "stops": [
+        { "station": "长隆森林王国", "arrival_time": "09:56", "departure_time": "10:00" },
+        { "station": "湖蝶湾", "arrival_time": "10:05", "departure_time": "10:06" },
+        { "station": "清远长隆", "arrival_time": "10:15", "departure_time": null }
+      ]
+    },
+    {
+      "train_no": "00106",
+      "direction": "清远长隆 → 长隆森林王国",
+      "stops": [
+        { "station": "清远长隆", "arrival_time": "10:16", "departure_time": "10:20" },
+        { "station": "湖蝶湾", "arrival_time": "10:24", "departure_time": "10:25" },
+        { "station": "长隆森林王国", "arrival_time": "10:35", "departure_time": null }
+      ]
+    },
+    {
+      "train_no": "00107",
+      "direction": "长隆森林王国 → 清远长隆",
+      "stops": [
+        { "station": "长隆森林王国", "arrival_time": "10:36", "departure_time": "10:40" },
+        { "station": "湖蝶湾", "arrival_time": "10:45", "departure_time": "10:46" },
+        { "station": "清远长隆", "arrival_time": "10:55", "departure_time": null }
+      ]
+    },
+    {
+      "train_no": "00108",
+      "direction": "清远长隆 → 长隆森林王国",
+      "stops": [
+        { "station": "清远长隆", "arrival_time": "10:56", "departure_time": "11:00" },
+        { "station": "湖蝶湾", "arrival_time": "11:04", "departure_time": "11:05" },
+        { "station": "长隆森林王国", "arrival_time": "11:15", "departure_time": null }
+      ]
+    },
+    {
+      "train_no": "00109",
+      "direction": "长隆森林王国 → 清远长隆",
+      "stops": [
+        { "station": "长隆森林王国", "arrival_time": "11:16", "departure_time": "11:20" },
+        { "station": "湖蝶湾", "arrival_time": "11:25", "departure_time": "11:26" },
+        { "station": "清远长隆", "arrival_time": "11:34", "departure_time": null }
+      ]
+    },
+    {
+      "train_no": "00110",
+      "direction": "清远长隆 → 长隆森林王国",
+      "stops": [
+        { "station": "清远长隆", "arrival_time": "11:35", "departure_time": "11:37" },
+        { "station": "湖蝶湾", "arrival_time": "11:41", "departure_time": "11:42" },
+        { "station": "长隆森林王国", "arrival_time": "11:52", "departure_time": null }
+      ]
+    },
+    {
+      "train_no": "00111",
+      "direction": "长隆森林王国 → 清远长隆",
+      "stops": [
+        { "station": "长隆森林王国", "arrival_time": "11:53", "departure_time": "11:55" },
+        { "station": "湖蝶湾", "arrival_time": "12:00", "departure_time": "12:01" },
+        { "station": "清远长隆", "arrival_time": "12:11", "departure_time": null }
+      ]
+    },
+    {
+      "train_no": "00112",
+      "direction": "清远长隆 → 长隆森林王国",
+      "stops": [
+        { "station": "清远长隆", "arrival_time": "13:58", "departure_time": "14:00" },
+        { "station": "湖蝶湾", "arrival_time": "14:04", "departure_time": "14:04" },
+        { "station": "长隆森林王国", "arrival_time": "14:13", "departure_time": null }
+      ]
+    },
+    {
+      "train_no": "00113",
+      "direction": "长隆森林王国 → 清远长隆",
+      "stops": [
+        { "station": "长隆森林王国", "arrival_time": "14:14", "departure_time": "14:15" },
+        { "station": "湖蝶湾", "arrival_time": "14:20", "departure_time": "14:21" },
+        { "station": "清远长隆", "arrival_time": "14:28", "departure_time": null }
+      ]
+    },
+    {
+      "train_no": "00114",
+      "direction": "清远长隆 → 长隆森林王国",
+      "stops": [
+        { "station": "清远长隆", "arrival_time": "14:29", "departure_time": "15:00" },
+        { "station": "湖蝶湾", "arrival_time": "15:04", "departure_time": "15:04" },
+        { "station": "长隆森林王国", "arrival_time": "15:13", "departure_time": null }
+      ]
+    },
+    {
+      "train_no": "00115",
+      "direction": "长隆森林王国 → 清远长隆",
+      "stops": [
+        { "station": "长隆森林王国", "arrival_time": "15:14", "departure_time": "15:15" },
+        { "station": "湖蝶湾", "arrival_time": "15:20", "departure_time": "15:21" },
+        { "station": "清远长隆", "arrival_time": "15:28", "departure_time": null }
+      ]
+    },
+    {
+      "train_no": "00116",
+      "direction": "清远长隆 → 长隆森林王国",
+      "stops": [
+        { "station": "清远长隆", "arrival_time": "15:29", "departure_time": "16:00" },
+        { "station": "湖蝶湾", "arrival_time": "16:04", "departure_time": "16:04" },
+        { "station": "长隆森林王国", "arrival_time": "16:13", "departure_time": null }
+      ]
+    },
+    {
+      "train_no": "00117",
+      "direction": "长隆森林王国 → 清远长隆",
+      "stops": [
+        { "station": "长隆森林王国", "arrival_time": "16:14", "departure_time": "16:15" },
+        { "station": "湖蝶湾", "arrival_time": "16:20", "departure_time": "16:21" },
+        { "station": "清远长隆", "arrival_time": "16:28", "departure_time": null }
+      ]
+    },
+    {
+      "train_no": "00118",
+      "direction": "清远长隆 → 长隆森林王国",
+      "stops": [
+        { "station": "清远长隆", "arrival_time": "16:29", "departure_time": "17:00" },
+        { "station": "湖蝶湾", "arrival_time": "17:04", "departure_time": "17:04" },
+        { "station": "长隆森林王国", "arrival_time": "17:13", "departure_time": null }
+      ]
+    },
+    {
+      "train_no": "00119",
+      "direction": "长隆森林王国 → 清远长隆",
+      "stops": [
+        { "station": "长隆森林王国", "arrival_time": "17:14", "departure_time": "17:15" },
+        { "station": "湖蝶湾", "arrival_time": "17:20", "departure_time": "17:21" },
+        { "station": "清远长隆", "arrival_time": "17:28", "departure_time": null }
+      ]
+    },
+    {
+      "train_no": "00120",
+      "direction": "清远长隆 → 长隆森林王国",
+      "stops": [
+        { "station": "清远长隆", "arrival_time": "17:29", "departure_time": "18:00" },
+        { "station": "湖蝶湾", "arrival_time": "18:04", "departure_time": "18:04" },
+        { "station": "长隆森林王国", "arrival_time": "18:13", "departure_time": null }
+      ]
+    },
+    {
+      "train_no": "00121",
+      "direction": "长隆森林王国 → 清远长隆",
+      "stops": [
+        { "station": "长隆森林王国", "arrival_time": "18:15", "departure_time": "18:20" },
+        { "station": "湖蝶湾", "arrival_time": "18:25", "departure_time": "18:26" },
+        { "station": "清远长隆", "arrival_time": "18:33", "departure_time": null }
+      ]
+    }
+  ]
+}
