@@ -1,7 +1,7 @@
 # 🚄 广东城际时刻表
 
 <p align="center">
-  <b>广东城际线路时刻查询工具</b><br>
+  <b>广州地铁城际线路时刻查询工具</b><br>
   <i>支持广清、广惠、广肇、穗深等城际线路</i>
 </p>
 
@@ -96,10 +96,10 @@
 
 ```bash
 # 📥 克隆仓库
-git clone https://github.com/your-username/guangzhou-intercity-schedule.git
+git clone https://github.com/RCFDark/GDIC-Time-Table.git
 
 # 📂 进入目录
-cd guangzhou-intercity-schedule
+cd GDIC-Time-Table
 
 # 🌐 使用任意 HTTP 服务器运行
 python -m http.server 8000
@@ -142,12 +142,12 @@ npx serve
 
 ## 🙏 致谢
 
-数据来源于广东城际官方时刻表，仅供学习交流使用。
+数据来源于广州地铁官方时刻表，仅供学习交流使用。
 
 ---
 
 > 💡 **提示**：本工具为静态网页，所有数据存储在 JSON 文件中，可自行更新数据源以保持时刻表准确。
 
 <p align="center">
-  Made with ❤️ for Guangdong Intercity
+  Made with ❤️ for Guangzhou Metro
 </p>
